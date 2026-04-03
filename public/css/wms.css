@@ -1,0 +1,12 @@
+#mapa {
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+  gap:10px;
+}
+
+.posicao {
+  background:#1e3c72;
+  padding:10px;
+  border-radius:8px;
+  text-align:center;
+}
