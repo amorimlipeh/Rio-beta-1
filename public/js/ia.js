@@ -1,1 +1,1 @@
-function runIA(){document.getElementById('ia').innerHTML='✔ Sistema OK<br>✔ Estoque OK<br>✔ Pedidos OK';}
+function ia(){document.getElementById('ia').innerHTML='Sistema OK ✔';}
