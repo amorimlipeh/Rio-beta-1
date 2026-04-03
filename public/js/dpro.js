@@ -1,1 +1,0 @@
-setInterval(()=>{document.getElementById('dpro').innerHTML='Operacional ✔ '+new Date().toLocaleTimeString()},2000);

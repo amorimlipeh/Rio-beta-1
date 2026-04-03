@@ -1,1 +1,0 @@
-function scan(){let c=document.getElementById('cod').value;document.getElementById('out').innerHTML='Lido: '+c;}

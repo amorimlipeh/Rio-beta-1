@@ -1,1 +1,0 @@
-function ia(){document.getElementById('ia').innerHTML='Sistema OK ✔';}

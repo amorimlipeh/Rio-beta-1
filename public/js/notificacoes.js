@@ -1,1 +1,0 @@
-setInterval(async()=>{const r=await fetch('/health');const d=await r.json();document.getElementById('notificacoes').innerHTML='Sistema: '+d.app+'<br>'+new Date().toLocaleTimeString();},3000);

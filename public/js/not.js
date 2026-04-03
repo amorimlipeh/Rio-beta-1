@@ -1,1 +1,0 @@
-setInterval(()=>{document.getElementById('not').innerHTML='Sistema ativo '+new Date().toLocaleTimeString()},2000);

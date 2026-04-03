@@ -1,1 +1,0 @@
-function sep(){document.getElementById('sep').innerHTML='Separação iniciada ✔';}
