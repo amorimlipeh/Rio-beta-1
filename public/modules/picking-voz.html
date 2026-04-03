@@ -1,0 +1,69 @@
+
+<div class="card">
+  <h2>Picking por Voz</h2>
+  <div class="subcard">
+    <button onclick="carregarFilaVoz()">Atualizar fila</button>
+    <button onclick="falarAtual()">Falar atual</button>
+    <button onclick="proximoItem()">Próximo</button>
+    <button onclick="repetirItem()">Repetir</button>
+  </div>
+  <div id="vozAtual" class="list"></div>
+  <div class="subcard">
+    <h3>Fila</h3>
+    <div id="vozFila" class="list compact"></div>
+  </div>
+</div>
+
+<script>
+let filaVoz = [];
+let idxVoz = 0;
+
+async function carregarFilaVoz(){
+  const r = await fetch('/api/voz/fila');
+  filaVoz = await r.json();
+  idxVoz = 0;
+  renderFilaVoz();
+  renderAtualVoz();
+}
+function frase(item){
+  return `Pedido ${item.pedido}. Produto ${item.nome}. Endereço ${item.endereco}. Quantidade ${item.quantidade}.`;
+}
+function falar(texto){
+  if (!window.speechSynthesis) return alert('Navegador sem suporte a voz');
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = 'pt-BR';
+  window.speechSynthesis.speak(u);
+}
+function falarAtual(){
+  if (!filaVoz.length) return;
+  falar(frase(filaVoz[idxVoz]));
+}
+function repetirItem(){
+  falarAtual();
+}
+function proximoItem(){
+  if (idxVoz < filaVoz.length - 1) idxVoz++;
+  renderAtualVoz();
+  falarAtual();
+}
+function renderAtualVoz(){
+  const el = document.getElementById('vozAtual');
+  if (!filaVoz.length) {
+    el.innerHTML = '<div class="item">Fila vazia.</div>';
+    return;
+  }
+  const item = filaVoz[idxVoz];
+  el.innerHTML = `<div class="item"><strong>Atual</strong><br>Pedido: ${item.pedido}<br>Produto: ${item.codigo} - ${item.nome}<br>Endereço: ${item.endereco}<br>Quantidade: ${item.quantidade}</div>`;
+}
+function renderFilaVoz(){
+  const el = document.getElementById('vozFila');
+  el.innerHTML = filaVoz.map((item, i) => `
+    <div class="item">
+      <strong>${i === idxVoz ? '▶ ' : ''}${item.codigo}</strong> - ${item.nome}<br>
+      Endereço: ${item.endereco} • Qtd: ${item.quantidade}
+    </div>
+  `).join('') || '<div class="item">Fila vazia.</div>';
+}
+carregarFilaVoz();
+</script>
