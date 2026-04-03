@@ -1,0 +1,18 @@
+
+<div class="card">
+  <h2>WMS</h2>
+  <div id="wms-grid" class="wms-grid"></div>
+</div>
+<script>
+(async function(){
+  const r = await fetch('/api/wms', { cache:'no-store' });
+  const list = await r.json();
+  document.getElementById('wms-grid').innerHTML = list.map(x => `
+    <div class="wms-cell ${x.status}">
+      <strong>${x.endereco}</strong>
+      <div>Status: ${x.status}</div>
+      <div>${x.produto || '-'}</div>
+    </div>
+  `).join('');
+})();
+</script>

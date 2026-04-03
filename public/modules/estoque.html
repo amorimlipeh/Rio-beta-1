@@ -1,0 +1,14 @@
+
+<div class="card">
+  <h2>Estoque</h2>
+  <div id="estoque-lista" class="list"></div>
+</div>
+<script>
+(async function(){
+  const r = await fetch('/api/produtos', { cache:'no-store' });
+  const list = await r.json();
+  document.getElementById('estoque-lista').innerHTML = list.map(p => `
+    <div class="item"><strong>${p.codigo}</strong><br>Estoque atual: ${p.estoque}</div>
+  `).join('');
+})();
+</script>

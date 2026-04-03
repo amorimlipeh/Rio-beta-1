@@ -1,0 +1,14 @@
+
+.card{background:#16356d;border-radius:20px;padding:22px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.mini-card{background:#1b3772;border-radius:16px;padding:18px}
+.mini-card strong{display:block;font-size:30px;margin-top:8px}
+.list{background:#12305f;border-radius:16px;padding:14px;margin-top:14px}
+.item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.item:last-child{border-bottom:none}
+.wms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.wms-cell{background:#17386f;border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.12)}
+.wms-cell strong{display:block;margin-bottom:6px}
+.wms-cell.livre{background:#1e6b42}
+.wms-cell.ocupado{background:#8a5a1b}
+.wms-cell.bloqueado{background:#8b2431}

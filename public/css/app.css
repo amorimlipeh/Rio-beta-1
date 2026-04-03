@@ -1,0 +1,17 @@
+
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#0f2d57;color:#fff}
+.page{padding:24px}
+.menu{max-width:700px}
+h1{margin:0 0 24px;font-size:28px}
+.btn{
+  display:block;
+  margin:14px 0;
+  padding:18px;
+  border-radius:16px;
+  background:#4461d5;
+  text-align:center;
+  cursor:pointer;
+}
+.btn.ativo{outline:2px solid rgba(255,255,255,.55)}
+#conteudo{margin-top:28px}

@@ -1,0 +1,14 @@
+
+<div class="card">
+  <h2>Pedidos</h2>
+  <div id="pedidos-lista" class="list"></div>
+</div>
+<script>
+(async function(){
+  const r = await fetch('/api/pedidos', { cache:'no-store' });
+  const list = await r.json();
+  document.getElementById('pedidos-lista').innerHTML = list.map(p => `
+    <div class="item"><strong>${p.numero}</strong><br>Cliente: ${p.cliente}<br>Status: ${p.status}</div>
+  `).join('');
+})();
+</script>

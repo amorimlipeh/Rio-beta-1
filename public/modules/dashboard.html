@@ -1,0 +1,16 @@
+
+<div class="card">
+  <h2>Dashboard</h2>
+  <div id="dash-grid" class="grid"></div>
+</div>
+<script>
+(async function(){
+  const r = await fetch('/api/dashboard', { cache:'no-store' });
+  const d = await r.json();
+  document.getElementById('dash-grid').innerHTML = `
+    <div class="mini-card"><span>Produtos</span><strong>${d.totalProdutos}</strong></div>
+    <div class="mini-card"><span>Estoque</span><strong>${d.totalEstoque}</strong></div>
+    <div class="mini-card"><span>Pedidos</span><strong>${d.pedidosAbertos}</strong></div>
+  `;
+})();
+</script>

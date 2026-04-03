@@ -1,39 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>RIO DAS ESTRELAS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { margin:0; font-family: Arial; background:#0f2747; color:#fff; }
-    .menu { padding:20px; }
-    .btn {
-      display:block;
-      margin:10px 0;
-      padding:15px;
-      background:#3b5bcc;
-      border-radius:10px;
-      text-align:center;
-      cursor:pointer;
-    }
-    #conteudo { padding:20px; }
-  </style>
+  <title>RIO DAS ESTRELAS</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/modulos.css">
 </head>
 <body>
-
-<div class="menu">
-  <h2>RIO DAS ESTRELAS</h2>
-
-  <div class="btn" onclick="abrirModulo('dashboard')">Dashboard</div>
-  <div class="btn" onclick="abrirModulo('produtos')">Produtos</div>
-  <div class="btn" onclick="abrirModulo('estoque')">Estoque</div>
-  <div class="btn" onclick="abrirModulo('pedidos')">Pedidos</div>
-<div class="btn" onclick="abrirModulo('wms')">WMS</div>
-</div>
-
-<div id="conteudo"></div>
-
-<script src="/js/app.js"></script>
-
+  <div class="page">
+    <div class="menu">
+      <h1>RIO DAS ESTRELAS</h1>
+      <div class="btn" data-modulo="dashboard" onclick="abrirModulo('dashboard')">Dashboard</div>
+      <div class="btn" data-modulo="produtos" onclick="abrirModulo('produtos')">Produtos</div>
+      <div class="btn" data-modulo="estoque" onclick="abrirModulo('estoque')">Estoque</div>
+      <div class="btn" data-modulo="pedidos" onclick="abrirModulo('pedidos')">Pedidos</div>
+      <div class="btn" data-modulo="wms" onclick="abrirModulo('wms')">WMS</div>
+    </div>
+    <div id="conteudo"></div>
+  </div>
+  <script src="/js/app.js"></script>
 </body>
 </html>
