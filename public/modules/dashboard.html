@@ -1,14 +1,22 @@
-<h2>Dashboard</h2>
-<div id="dados"></div>
+
+<div class="card">
+  <h2>Dashboard</h2>
+  <div id="dashboard-grid" class="grid"></div>
+</div>
 
 <script>
-fetch('/api/dashboard')
-  .then(r => r.json())
-  .then(data => {
-    document.getElementById('dados').innerHTML = `
-      📦 Produtos: ${data.totalProdutos}<br>
-      📊 Estoque: ${data.totalEstoque}<br>
-      📋 Pedidos: ${data.pedidosAbertos}
+(async function(){
+  const el = document.getElementById('dashboard-grid');
+  try{
+    const r = await fetch('/api/dashboard', { cache: 'no-store' });
+    const d = await r.json();
+    el.innerHTML = `
+      <div class="mini-card"><span>Produtos</span><strong>${d.totalProdutos ?? d.produtos ?? 0}</strong></div>
+      <div class="mini-card"><span>Estoque</span><strong>${d.totalEstoque ?? d.estoqueTotal ?? 0}</strong></div>
+      <div class="mini-card"><span>Pedidos</span><strong>${d.pedidosAbertos ?? 0}</strong></div>
     `;
-  });
+  }catch(e){
+    el.innerHTML = '<div class="item">Falha ao carregar dashboard.</div>';
+  }
+})();
 </script>

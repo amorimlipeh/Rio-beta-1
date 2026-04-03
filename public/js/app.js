@@ -1,17 +1,30 @@
-function abrirModulo(modulo) {
+
+window.RIO = window.RIO || {};
+
+window.abrirModulo = async function(modulo) {
   const container = document.getElementById('conteudo');
+  if (!container) {
+    console.warn('Container #conteudo não encontrado');
+    return;
+  }
 
-  fetch('/modules/' + modulo + '.html')
-    .then(res => res.text())
-    .then(html => {
-      container.innerHTML = html;
-    })
-    .catch(() => {
-      container.innerHTML = '<h3>⚠️ Módulo não encontrado</h3>';
-    });
-}
+  try {
+    const res = await fetch(`/modules/${modulo}.html`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Modulo não encontrado');
+    const html = await res.text();
+    container.innerHTML = html;
 
-// inicializa dashboard sempre
-window.onload = () => {
-  abrirModulo('dashboard');
+    document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('ativo'));
+    const alvo = document.querySelector(`[data-modulo="${modulo}"]`);
+    if (alvo) alvo.classList.add('ativo');
+  } catch (e) {
+    container.innerHTML = `<div class="card"><h2>${modulo}</h2><p>⚠️ Módulo não encontrado.</p></div>`;
+  }
 };
+
+window.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('conteudo');
+  if (container && !container.innerHTML.trim()) {
+    abrirModulo('dashboard');
+  }
+});

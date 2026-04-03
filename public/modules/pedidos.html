@@ -1,0 +1,24 @@
+
+<div class="card">
+  <h2>Pedidos</h2>
+  <div id="lista-pedidos" class="list"></div>
+</div>
+
+<script>
+(async function(){
+  const el = document.getElementById('lista-pedidos');
+  try{
+    const r = await fetch('/api/pedidos', { cache: 'no-store' });
+    const list = await r.json();
+    el.innerHTML = (list || []).map(p => `
+      <div class="item">
+        <strong>${p.numero || p.id || '-'}</strong><br>
+        Cliente: ${p.cliente || '-'}<br>
+        Status: ${p.status || '-'}
+      </div>
+    `).join('') || '<div class="item">Sem pedidos.</div>';
+  }catch(e){
+    el.innerHTML = '<div class="item">Falha ao carregar pedidos.</div>';
+  }
+})();
+</script>

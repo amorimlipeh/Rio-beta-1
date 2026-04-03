@@ -1,0 +1,23 @@
+
+<div class="card">
+  <h2>Estoque</h2>
+  <div id="lista-estoque" class="list"></div>
+</div>
+
+<script>
+(async function(){
+  const el = document.getElementById('lista-estoque');
+  try{
+    const r = await fetch('/api/produtos', { cache: 'no-store' });
+    const list = await r.json();
+    el.innerHTML = (list || []).map(p => `
+      <div class="item">
+        <strong>${p.codigo || '-'}</strong><br>
+        Estoque atual: ${p.estoque ?? p.quantidade ?? 0}
+      </div>
+    `).join('') || '<div class="item">Sem estoque.</div>';
+  }catch(e){
+    el.innerHTML = '<div class="item">Falha ao carregar estoque.</div>';
+  }
+})();
+</script>
