@@ -1,53 +1,14 @@
-
-<div class="card">
-  <h2>Dashboard PRO</h2>
-  <div id="kpis" class="dash-grid"></div>
-  <div class="subcard">
-    <h3>Atividade recente</h3>
-    <div id="atividade" class="list"></div>
-  </div>
-  <div class="subcard">
-    <h3>Alertas</h3>
-    <div id="alertas" class="list compact"></div>
-  </div>
-</div>
+<h2>Dashboard</h2>
+<div id="dados"></div>
 
 <script>
-async function carregarDashboardPro(){
-  const [rk, ra] = await Promise.all([
-    fetch('/api/dashboard/kpis'),
-    fetch('/api/dashboard/atividade')
-  ]);
-  const k = await rk.json();
-  const atividade = await ra.json();
-
-  const kpis = document.getElementById('kpis');
-  const atividadeEl = document.getElementById('atividade');
-  const alertasEl = document.getElementById('alertas');
-
-  kpis.innerHTML = `
-    <div class="mini-card"><span>Total produtos</span><strong>${k.totalProdutos ?? 0}</strong></div>
-    <div class="mini-card"><span>Estoque total</span><strong>${k.estoqueTotal ?? 0}</strong></div>
-    <div class="mini-card"><span>Pedidos abertos</span><strong>${k.pedidosAbertos ?? 0}</strong></div>
-    <div class="mini-card"><span>Pedidos concluídos</span><strong>${k.pedidosConcluidos ?? 0}</strong></div>
-    <div class="mini-card"><span>Movimentações hoje</span><strong>${k.movimentacoesHoje ?? 0}</strong></div>
-  `;
-
-  atividadeEl.innerHTML = atividade.map(a => `
-    <div class="item">
-      <strong>${a.titulo}</strong><br>
-      ${a.detalhe}<br>
-      <small>${new Date(a.data).toLocaleString()}</small>
-    </div>
-  `).join('') || '<div class="item">Sem atividade recente.</div>';
-
-  alertasEl.innerHTML = (k.alertas || []).map(n => `
-    <div class="item">
-      <strong>${n.tipo || 'info'}</strong><br>
-      ${n.msg || n.texto || '-'}
-    </div>
-  `).join('') || '<div class="item">Sem alertas.</div>';
-}
-carregarDashboardPro();
-setInterval(carregarDashboardPro, 10000);
+fetch('/api/dashboard')
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('dados').innerHTML = `
+      📦 Produtos: ${data.totalProdutos}<br>
+      📊 Estoque: ${data.totalEstoque}<br>
+      📋 Pedidos: ${data.pedidosAbertos}
+    `;
+  });
 </script>

@@ -1,14 +1,17 @@
-const CK='riobeta1_mod_pedidos';
-if(localStorage.getItem(CK)!=='done'){localStorage.setItem(CK,'done');setTimeout(()=>location.reload(),50);}
-let produtosCache=[];
-function setMsg(id,text,kind=''){const el=document.getElementById(id); if(!el)return; el.textContent=text||''; el.className='msg'+(kind?' '+kind:'');}
-async function fazerLogin(){const login=loginInput.value.trim(),senha=senhaInput.value.trim();const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({login,senha})});const d=await r.json();if(!d.ok)return setMsg('loginMsg',d.msg||'Erro login','err');authView.classList.add('hidden');appView.classList.remove('hidden');carregarTudo();}
-function abrirModulo(nome,btn){document.querySelectorAll('.module').forEach(el=>el.classList.add('hidden'));document.getElementById(nome).classList.remove('hidden');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(nome==='dashboard')carregarResumo();if(nome==='produtos')carregarProdutos();if(nome==='estoque')carregarEstoque();if(nome==='pedidos')carregarPedidos();if(nome==='separacao')carregarSeparacao();if(nome==='notificacoes')carregarNotificacoes();}
-async function carregarResumo(){const r=await fetch('/api/resumo',{cache:'no-store'});const d=await r.json();metricas.innerHTML=`<div class="mini-card">Produtos <strong>${d.produtos}</strong></div><div class="mini-card">Estoque total <strong>${d.estoqueTotal}</strong></div><div class="mini-card">Pedidos abertos <strong>${d.pedidosAbertos}</strong></div><div class="mini-card">Notificações <strong>${d.notificacoes}</strong></div>`;}
-async function carregarProdutos(){const r=await fetch('/api/produtos',{cache:'no-store'});produtosCache=await r.json();produtosSugestoesCodigos.innerHTML=produtosCache.map(p=>`<option value="${p.codigo} - ${p.nome}"></option>`).join('');listaProdutos.innerHTML=produtosCache.map(p=>`<div class="item"><strong>${p.codigo}</strong> - ${p.nome}<br>Estoque: ${p.estoque}<br>Endereço: ${p.endereco||'-'}</div>`).join('')||'<div class="item">Nenhum produto.</div>';}
-async function carregarEstoque(){if(!produtosCache.length) await carregarProdutos();estoqueLista.innerHTML=produtosCache.map(p=>`<div class="item"><strong>${p.codigo}</strong> - ${p.nome}<br>Estoque atual: <strong>${p.estoque}</strong><br>Endereço: ${p.endereco||'-'}</div>`).join('');}
-async function salvarPedido(){let item=pedItem1.value.trim();if(item.includes(' - ')) item=item.split(' - ')[0].trim();await fetch('/api/pedidos',{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({numero:pedNumero.value.trim(),cliente:pedCliente.value.trim(),itens:[{codigo:item,quantidade:Number(pedQtd1.value||0)}]})});pedNumero.value='';pedCliente.value='';pedItem1.value='';pedQtd1.value='';await carregarResumo();await carregarPedidos();await carregarSeparacao();}
-async function carregarPedidos(){const r=await fetch('/api/pedidos',{cache:'no-store'});const pedidos=await r.json();listaPedidos.innerHTML=pedidos.map(p=>`<div class="item"><strong>${p.numero}</strong> - ${p.cliente}<br>Status: ${p.status}<br>Itens: ${(p.itens||[]).map(i=>`${i.codigo} (${i.quantidade})`).join(', ')||'-'}</div>`).join('')||'<div class="item">Nenhum pedido.</div>';}
-async function carregarSeparacao(){const r=await fetch('/api/wms/separacao-sugestao',{cache:'no-store'});const dados=await r.json();listaSeparacao.innerHTML=dados.map(x=>`<div class="item"><strong>${x.codigo}</strong> - ${x.nome}<br>Endereço: ${x.endereco}<br>Estoque: ${x.estoque}</div>`).join('')||'<div class="item">Nenhuma sugestão.</div>';}
-async function carregarNotificacoes(){listaNotificacoes.innerHTML=`<div class="item">Módulo Pedidos carregado com sucesso.</div><div class="item">Cadastro simples de pedido e separação inicial ativos.</div>`;}
-function carregarTudo(){carregarResumo();carregarProdutos();carregarEstoque();carregarPedidos();carregarSeparacao();carregarNotificacoes();}
+function abrirModulo(modulo) {
+  const container = document.getElementById('conteudo');
+
+  fetch('/modules/' + modulo + '.html')
+    .then(res => res.text())
+    .then(html => {
+      container.innerHTML = html;
+    })
+    .catch(() => {
+      container.innerHTML = '<h3>⚠️ Módulo não encontrado</h3>';
+    });
+}
+
+// inicializa dashboard sempre
+window.onload = () => {
+  abrirModulo('dashboard');
+};
