@@ -1,0 +1,1 @@
+setInterval(()=>{const el=document.getElementById('logs');el.innerHTML='<div>'+new Date().toLocaleString()+'</div>'+el.innerHTML;},2000);
