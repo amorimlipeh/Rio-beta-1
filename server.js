@@ -53,6 +53,7 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+app.post('/salvar-wms', (req, res) => {  require('fs').writeFileSync('data/wms.json', JSON.stringify(req.body, null, 2));  res.send({ ok: true });});
 app.listen(PORT, '0.0.0.0', () => {
   console.log('Servidor rodando na porta ' + PORT);
 });

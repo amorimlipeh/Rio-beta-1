@@ -5,8 +5,12 @@
 }
 
 .posicao {
-  background:#1e3c72;
-  padding:10px;
-  border-radius:8px;
+  padding:12px;
+  border-radius:10px;
   text-align:center;
+  font-size:12px;
 }
+
+.livre { background:#2ecc71; }
+.ocupado { background:#e67e22; }
+.bloqueado { background:#e74c3c; }

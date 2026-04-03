@@ -1,0 +1,5 @@
+[
+  { "endereco": "05-001-1-1", "status": "livre" },
+  { "endereco": "05-002-1-1", "status": "ocupado", "produto": "ARZ001" },
+  { "endereco": "05-003-1-1", "status": "bloqueado" }
+]
