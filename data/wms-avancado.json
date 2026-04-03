@@ -1,0 +1,1682 @@
+[
+  {
+    "endereco": "01-001-1-1",
+    "rua": "01",
+    "posicao": "001",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-001-2-1",
+    "rua": "01",
+    "posicao": "001",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-001-3-1",
+    "rua": "01",
+    "posicao": "001",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-002-1-1",
+    "rua": "01",
+    "posicao": "002",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-002-2-1",
+    "rua": "01",
+    "posicao": "002",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-002-3-1",
+    "rua": "01",
+    "posicao": "002",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-003-1-1",
+    "rua": "01",
+    "posicao": "003",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-003-2-1",
+    "rua": "01",
+    "posicao": "003",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-003-3-1",
+    "rua": "01",
+    "posicao": "003",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-004-1-1",
+    "rua": "01",
+    "posicao": "004",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-004-2-1",
+    "rua": "01",
+    "posicao": "004",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-004-3-1",
+    "rua": "01",
+    "posicao": "004",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-005-1-1",
+    "rua": "01",
+    "posicao": "005",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-005-2-1",
+    "rua": "01",
+    "posicao": "005",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-005-3-1",
+    "rua": "01",
+    "posicao": "005",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-006-1-1",
+    "rua": "01",
+    "posicao": "006",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-006-2-1",
+    "rua": "01",
+    "posicao": "006",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-006-3-1",
+    "rua": "01",
+    "posicao": "006",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-007-1-1",
+    "rua": "01",
+    "posicao": "007",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-007-2-1",
+    "rua": "01",
+    "posicao": "007",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-007-3-1",
+    "rua": "01",
+    "posicao": "007",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-008-1-1",
+    "rua": "01",
+    "posicao": "008",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-008-2-1",
+    "rua": "01",
+    "posicao": "008",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-008-3-1",
+    "rua": "01",
+    "posicao": "008",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-009-1-1",
+    "rua": "01",
+    "posicao": "009",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-009-2-1",
+    "rua": "01",
+    "posicao": "009",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-009-3-1",
+    "rua": "01",
+    "posicao": "009",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-010-1-1",
+    "rua": "01",
+    "posicao": "010",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-010-2-1",
+    "rua": "01",
+    "posicao": "010",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "01-010-3-1",
+    "rua": "01",
+    "posicao": "010",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-001-1-1",
+    "rua": "02",
+    "posicao": "001",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-001-2-1",
+    "rua": "02",
+    "posicao": "001",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-001-3-1",
+    "rua": "02",
+    "posicao": "001",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-002-1-1",
+    "rua": "02",
+    "posicao": "002",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-002-2-1",
+    "rua": "02",
+    "posicao": "002",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-002-3-1",
+    "rua": "02",
+    "posicao": "002",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-003-1-1",
+    "rua": "02",
+    "posicao": "003",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-003-2-1",
+    "rua": "02",
+    "posicao": "003",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-003-3-1",
+    "rua": "02",
+    "posicao": "003",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-004-1-1",
+    "rua": "02",
+    "posicao": "004",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-004-2-1",
+    "rua": "02",
+    "posicao": "004",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-004-3-1",
+    "rua": "02",
+    "posicao": "004",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-005-1-1",
+    "rua": "02",
+    "posicao": "005",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-005-2-1",
+    "rua": "02",
+    "posicao": "005",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-005-3-1",
+    "rua": "02",
+    "posicao": "005",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-006-1-1",
+    "rua": "02",
+    "posicao": "006",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-006-2-1",
+    "rua": "02",
+    "posicao": "006",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-006-3-1",
+    "rua": "02",
+    "posicao": "006",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-007-1-1",
+    "rua": "02",
+    "posicao": "007",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-007-2-1",
+    "rua": "02",
+    "posicao": "007",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-007-3-1",
+    "rua": "02",
+    "posicao": "007",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-008-1-1",
+    "rua": "02",
+    "posicao": "008",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-008-2-1",
+    "rua": "02",
+    "posicao": "008",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-008-3-1",
+    "rua": "02",
+    "posicao": "008",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-009-1-1",
+    "rua": "02",
+    "posicao": "009",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-009-2-1",
+    "rua": "02",
+    "posicao": "009",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-009-3-1",
+    "rua": "02",
+    "posicao": "009",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-010-1-1",
+    "rua": "02",
+    "posicao": "010",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-010-2-1",
+    "rua": "02",
+    "posicao": "010",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "02-010-3-1",
+    "rua": "02",
+    "posicao": "010",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-001-1-1",
+    "rua": "03",
+    "posicao": "001",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-001-2-1",
+    "rua": "03",
+    "posicao": "001",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-001-3-1",
+    "rua": "03",
+    "posicao": "001",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-002-1-1",
+    "rua": "03",
+    "posicao": "002",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-002-2-1",
+    "rua": "03",
+    "posicao": "002",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-002-3-1",
+    "rua": "03",
+    "posicao": "002",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-003-1-1",
+    "rua": "03",
+    "posicao": "003",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-003-2-1",
+    "rua": "03",
+    "posicao": "003",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-003-3-1",
+    "rua": "03",
+    "posicao": "003",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-004-1-1",
+    "rua": "03",
+    "posicao": "004",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-004-2-1",
+    "rua": "03",
+    "posicao": "004",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-004-3-1",
+    "rua": "03",
+    "posicao": "004",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-005-1-1",
+    "rua": "03",
+    "posicao": "005",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-005-2-1",
+    "rua": "03",
+    "posicao": "005",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-005-3-1",
+    "rua": "03",
+    "posicao": "005",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-006-1-1",
+    "rua": "03",
+    "posicao": "006",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-006-2-1",
+    "rua": "03",
+    "posicao": "006",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-006-3-1",
+    "rua": "03",
+    "posicao": "006",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-007-1-1",
+    "rua": "03",
+    "posicao": "007",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-007-2-1",
+    "rua": "03",
+    "posicao": "007",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-007-3-1",
+    "rua": "03",
+    "posicao": "007",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-008-1-1",
+    "rua": "03",
+    "posicao": "008",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-008-2-1",
+    "rua": "03",
+    "posicao": "008",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-008-3-1",
+    "rua": "03",
+    "posicao": "008",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-009-1-1",
+    "rua": "03",
+    "posicao": "009",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-009-2-1",
+    "rua": "03",
+    "posicao": "009",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-009-3-1",
+    "rua": "03",
+    "posicao": "009",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-010-1-1",
+    "rua": "03",
+    "posicao": "010",
+    "andar": "1",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-010-2-1",
+    "rua": "03",
+    "posicao": "010",
+    "andar": "2",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "03-010-3-1",
+    "rua": "03",
+    "posicao": "010",
+    "andar": "3",
+    "status": "bloqueado",
+    "produto": ""
+  },
+  {
+    "endereco": "04-001-1-1",
+    "rua": "04",
+    "posicao": "001",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-001-2-1",
+    "rua": "04",
+    "posicao": "001",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-001-3-1",
+    "rua": "04",
+    "posicao": "001",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-002-1-1",
+    "rua": "04",
+    "posicao": "002",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-002-2-1",
+    "rua": "04",
+    "posicao": "002",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-002-3-1",
+    "rua": "04",
+    "posicao": "002",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-003-1-1",
+    "rua": "04",
+    "posicao": "003",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-003-2-1",
+    "rua": "04",
+    "posicao": "003",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-003-3-1",
+    "rua": "04",
+    "posicao": "003",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-004-1-1",
+    "rua": "04",
+    "posicao": "004",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-004-2-1",
+    "rua": "04",
+    "posicao": "004",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-004-3-1",
+    "rua": "04",
+    "posicao": "004",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-005-1-1",
+    "rua": "04",
+    "posicao": "005",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-005-2-1",
+    "rua": "04",
+    "posicao": "005",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-005-3-1",
+    "rua": "04",
+    "posicao": "005",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-006-1-1",
+    "rua": "04",
+    "posicao": "006",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-006-2-1",
+    "rua": "04",
+    "posicao": "006",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-006-3-1",
+    "rua": "04",
+    "posicao": "006",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-007-1-1",
+    "rua": "04",
+    "posicao": "007",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-007-2-1",
+    "rua": "04",
+    "posicao": "007",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-007-3-1",
+    "rua": "04",
+    "posicao": "007",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-008-1-1",
+    "rua": "04",
+    "posicao": "008",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-008-2-1",
+    "rua": "04",
+    "posicao": "008",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-008-3-1",
+    "rua": "04",
+    "posicao": "008",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-009-1-1",
+    "rua": "04",
+    "posicao": "009",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-009-2-1",
+    "rua": "04",
+    "posicao": "009",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-009-3-1",
+    "rua": "04",
+    "posicao": "009",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-010-1-1",
+    "rua": "04",
+    "posicao": "010",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-010-2-1",
+    "rua": "04",
+    "posicao": "010",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "04-010-3-1",
+    "rua": "04",
+    "posicao": "010",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-001-1-1",
+    "rua": "05",
+    "posicao": "001",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-001-2-1",
+    "rua": "05",
+    "posicao": "001",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-001-3-1",
+    "rua": "05",
+    "posicao": "001",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-002-1-1",
+    "rua": "05",
+    "posicao": "002",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-002-2-1",
+    "rua": "05",
+    "posicao": "002",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-002-3-1",
+    "rua": "05",
+    "posicao": "002",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-003-1-1",
+    "rua": "05",
+    "posicao": "003",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-003-2-1",
+    "rua": "05",
+    "posicao": "003",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-003-3-1",
+    "rua": "05",
+    "posicao": "003",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-004-1-1",
+    "rua": "05",
+    "posicao": "004",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-004-2-1",
+    "rua": "05",
+    "posicao": "004",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-004-3-1",
+    "rua": "05",
+    "posicao": "004",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-005-1-1",
+    "rua": "05",
+    "posicao": "005",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-005-2-1",
+    "rua": "05",
+    "posicao": "005",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-005-3-1",
+    "rua": "05",
+    "posicao": "005",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-006-1-1",
+    "rua": "05",
+    "posicao": "006",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-006-2-1",
+    "rua": "05",
+    "posicao": "006",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-006-3-1",
+    "rua": "05",
+    "posicao": "006",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-007-1-1",
+    "rua": "05",
+    "posicao": "007",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-007-2-1",
+    "rua": "05",
+    "posicao": "007",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-007-3-1",
+    "rua": "05",
+    "posicao": "007",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-008-1-1",
+    "rua": "05",
+    "posicao": "008",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-008-2-1",
+    "rua": "05",
+    "posicao": "008",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-008-3-1",
+    "rua": "05",
+    "posicao": "008",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-009-1-1",
+    "rua": "05",
+    "posicao": "009",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-009-2-1",
+    "rua": "05",
+    "posicao": "009",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-009-3-1",
+    "rua": "05",
+    "posicao": "009",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-010-1-1",
+    "rua": "05",
+    "posicao": "010",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-010-2-1",
+    "rua": "05",
+    "posicao": "010",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "05-010-3-1",
+    "rua": "05",
+    "posicao": "010",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-001-1-1",
+    "rua": "06",
+    "posicao": "001",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-001-2-1",
+    "rua": "06",
+    "posicao": "001",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-001-3-1",
+    "rua": "06",
+    "posicao": "001",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-002-1-1",
+    "rua": "06",
+    "posicao": "002",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-002-2-1",
+    "rua": "06",
+    "posicao": "002",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-002-3-1",
+    "rua": "06",
+    "posicao": "002",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-003-1-1",
+    "rua": "06",
+    "posicao": "003",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-003-2-1",
+    "rua": "06",
+    "posicao": "003",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-003-3-1",
+    "rua": "06",
+    "posicao": "003",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-004-1-1",
+    "rua": "06",
+    "posicao": "004",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-004-2-1",
+    "rua": "06",
+    "posicao": "004",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-004-3-1",
+    "rua": "06",
+    "posicao": "004",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-005-1-1",
+    "rua": "06",
+    "posicao": "005",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-005-2-1",
+    "rua": "06",
+    "posicao": "005",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-005-3-1",
+    "rua": "06",
+    "posicao": "005",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-006-1-1",
+    "rua": "06",
+    "posicao": "006",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-006-2-1",
+    "rua": "06",
+    "posicao": "006",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-006-3-1",
+    "rua": "06",
+    "posicao": "006",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-007-1-1",
+    "rua": "06",
+    "posicao": "007",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-007-2-1",
+    "rua": "06",
+    "posicao": "007",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-007-3-1",
+    "rua": "06",
+    "posicao": "007",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-008-1-1",
+    "rua": "06",
+    "posicao": "008",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-008-2-1",
+    "rua": "06",
+    "posicao": "008",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-008-3-1",
+    "rua": "06",
+    "posicao": "008",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-009-1-1",
+    "rua": "06",
+    "posicao": "009",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-009-2-1",
+    "rua": "06",
+    "posicao": "009",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-009-3-1",
+    "rua": "06",
+    "posicao": "009",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-010-1-1",
+    "rua": "06",
+    "posicao": "010",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-010-2-1",
+    "rua": "06",
+    "posicao": "010",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "06-010-3-1",
+    "rua": "06",
+    "posicao": "010",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-001-1-1",
+    "rua": "07",
+    "posicao": "001",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-001-2-1",
+    "rua": "07",
+    "posicao": "001",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-001-3-1",
+    "rua": "07",
+    "posicao": "001",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-002-1-1",
+    "rua": "07",
+    "posicao": "002",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-002-2-1",
+    "rua": "07",
+    "posicao": "002",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-002-3-1",
+    "rua": "07",
+    "posicao": "002",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-003-1-1",
+    "rua": "07",
+    "posicao": "003",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-003-2-1",
+    "rua": "07",
+    "posicao": "003",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-003-3-1",
+    "rua": "07",
+    "posicao": "003",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-004-1-1",
+    "rua": "07",
+    "posicao": "004",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-004-2-1",
+    "rua": "07",
+    "posicao": "004",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-004-3-1",
+    "rua": "07",
+    "posicao": "004",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-005-1-1",
+    "rua": "07",
+    "posicao": "005",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-005-2-1",
+    "rua": "07",
+    "posicao": "005",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-005-3-1",
+    "rua": "07",
+    "posicao": "005",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-006-1-1",
+    "rua": "07",
+    "posicao": "006",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-006-2-1",
+    "rua": "07",
+    "posicao": "006",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-006-3-1",
+    "rua": "07",
+    "posicao": "006",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-007-1-1",
+    "rua": "07",
+    "posicao": "007",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-007-2-1",
+    "rua": "07",
+    "posicao": "007",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-007-3-1",
+    "rua": "07",
+    "posicao": "007",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-008-1-1",
+    "rua": "07",
+    "posicao": "008",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-008-2-1",
+    "rua": "07",
+    "posicao": "008",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-008-3-1",
+    "rua": "07",
+    "posicao": "008",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-009-1-1",
+    "rua": "07",
+    "posicao": "009",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-009-2-1",
+    "rua": "07",
+    "posicao": "009",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-009-3-1",
+    "rua": "07",
+    "posicao": "009",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-010-1-1",
+    "rua": "07",
+    "posicao": "010",
+    "andar": "1",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-010-2-1",
+    "rua": "07",
+    "posicao": "010",
+    "andar": "2",
+    "status": "livre",
+    "produto": ""
+  },
+  {
+    "endereco": "07-010-3-1",
+    "rua": "07",
+    "posicao": "010",
+    "andar": "3",
+    "status": "livre",
+    "produto": ""
+  }
+]

@@ -1,0 +1,21 @@
+<section id="wms-avancado" class="module hidden">
+  <div class="card">
+    <h2>WMS Avançado</h2>
+    <div class="row">
+      <select id="wmsRuaFiltro"><option value="all">Todas as ruas</option></select>
+      <select id="wmsAndarFiltro">
+        <option value="all">Todos os andares</option>
+        <option value="1">Andar 1</option><option value="2">Andar 2</option><option value="3">Andar 3</option>
+        <option value="4">Andar 4</option><option value="5">Andar 5</option><option value="6">Andar 6</option><option value="7">Andar 7</option>
+      </select>
+    </div>
+    <div class="row">
+      <input id="wmsEnderecoFixar" placeholder="Endereço ex: 05-001-3-1" />
+      <input id="wmsProdutoFixar" placeholder="Código do produto" />
+    </div>
+    <button onclick="RIOWMSAvancado.fixarProduto()">Fixar produto</button>
+    <div id="wmsAvMsg" class="msg"></div>
+    <div id="wmsLegenda" class="list compact"></div>
+    <div id="wmsGridAv" class="wms-grid"></div>
+  </div>
+</section>

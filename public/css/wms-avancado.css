@@ -1,0 +1,4 @@
+.wms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.wms-cell{border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.12);cursor:pointer}
+.wms-cell strong{display:block;margin-bottom:6px;font-size:12px}
+.wms-cell.livre{background:#1e6b42}.wms-cell.ocupado{background:#8a5a1b}.wms-cell.bloqueado{background:#8b2431}
