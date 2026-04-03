@@ -1,0 +1,1 @@
+function falar(){let msg=new SpeechSynthesisUtterance('Rua 05 posição 001 andar 3');speechSynthesis.speak(msg);} 

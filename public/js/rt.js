@@ -1,0 +1,1 @@
+setInterval(()=>{document.getElementById('rt').innerHTML='Atualizado: '+new Date().toLocaleTimeString()},1000);

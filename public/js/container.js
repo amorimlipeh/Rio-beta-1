@@ -1,0 +1,1 @@
+function cont(){document.getElementById('c').innerHTML='Container registrado ✔';}
