@@ -1,12 +1,21 @@
+
 <div class="card">
   <h2>Scanner Inteligente V7</h2>
 
-  <button onclick="iniciarCamera()">Iniciar Scanner</button>
-  <button onclick="pararCamera()">Parar</button>
+  <div class="row">
+    <button onclick="iniciarCamera()">Iniciar Scanner</button>
+    <button onclick="pararCamera()">Parar</button>
+  </div>
+
+  <div class="row">
+    <input id="codigoManual" placeholder="Código manual" />
+    <button onclick="validarManual()">Validar código</button>
+  </div>
 
   <p id="status"></p>
 
-  <video id="video" autoplay playsinline style="width:100%;border-radius:10px;background:#000;"></video>
+  <h3>Pré-visualização</h3>
+  <video id="video" autoplay playsinline muted style="width:100%;border-radius:10px;background:#000;"></video>
 
   <h3>Resultado</h3>
   <div id="resultado"></div>
