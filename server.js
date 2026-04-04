@@ -211,6 +211,35 @@ app.get('*', (req, res) => {
   return res.status(200).send('RIOBETA1 ONLINE');
 });
 
+
+
+// =============================
+// ROTA BUSCA PRODUTOS (FIX)
+// =============================
+app.get('/api/produtos/busca', (req, res) => {
+  try {
+    const termo = String(req.query.q || '').toUpperCase().trim();
+
+    const produtos = readJson('produtos.json', []);
+
+    if (!termo) return res.json([]);
+
+    const encontrados = produtos.filter(p => {
+      const codigo = String(p.codigo || '').toUpperCase();
+      const nome = String(p.nome || '').toUpperCase();
+      return codigo.includes(termo) || nome.includes(termo);
+    });
+
+    res.json(encontrados.slice(0, 10));
+
+  } catch (err) {
+    console.error("ERRO BUSCA PRODUTOS:", err);
+    res.status(500).json([]);
+  }
+});
+
+// ROTA_BUSCA_PRODUTOS_OK
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log('Servidor rodando na porta ' + PORT);
 });

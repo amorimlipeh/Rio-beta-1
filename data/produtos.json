@@ -1,47 +1,6 @@
 [
-  {
-    "id": 1,
-    "codigo": "ARZ001",
-    "nome": "Arroz 5kg",
-    "endereco": "05-001-3-1",
-    "estoque": 120,
-    "imagem": "",
-    "fator": 1
-  },
-  {
-    "id": 2,
-    "codigo": "FEJ002",
-    "nome": "Feijão Preto 1kg",
-    "endereco": "05-002-3-1",
-    "estoque": 80,
-    "imagem": "",
-    "fator": 1
-  },
-  {
-    "id": 3,
-    "codigo": "MAC003",
-    "nome": "Macarrão Espaguete",
-    "endereco": "05-003-3-1",
-    "estoque": 65,
-    "imagem": "",
-    "fator": 1
-  },
-  {
-    "id": 4,
-    "codigo": "OLE004",
-    "nome": "Óleo de Soja 900ml",
-    "endereco": "05-004-2-1",
-    "estoque": 40,
-    "imagem": "",
-    "fator": 1
-  },
-  {
-    "id": 5,
-    "codigo": "CAF005",
-    "nome": "Café 500g",
-    "endereco": "05-005-1-1",
-    "estoque": 30,
-    "imagem": "",
-    "fator": 1
-  }
+  {"id":1,"codigo":"ARZ001","nome":"Arroz 5kg","endereco":"05-001-3-1","estoque":120,"fator":1},
+  {"id":2,"codigo":"FEJ002","nome":"Feijão Preto 1kg","endereco":"05-002-3-1","estoque":80,"fator":1},
+  {"id":3,"codigo":"MAC003","nome":"Macarrão Espaguete","endereco":"05-003-3-1","estoque":65,"fator":1},
+  {"id":4,"codigo":"ACU004","nome":"Açúcar 1kg","endereco":"05-004-3-1","estoque":90,"fator":1}
 ]
