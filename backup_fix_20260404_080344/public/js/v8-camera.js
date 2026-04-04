@@ -1,3 +1,4 @@
+
 window.V8Cam = {
   stream: null,
   devices: [],
@@ -17,11 +18,9 @@ window.V8Cam = {
     try { return JSON.parse(localStorage.getItem(this.histKey) || '[]'); }
     catch { return []; }
   },
-
   setHist(v){
     localStorage.setItem(this.histKey, JSON.stringify(v.slice(0, 60)));
   },
-
   renderHist(){
     const el = document.getElementById('v8Historico');
     const hist = this.getHist();
@@ -53,15 +52,18 @@ window.V8Cam = {
   },
 
   async listar(){
-    this.devices = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
+    this.devices = (await navigator.mediaDevices.enumerateDevices())
+      .filter(d => d.kind === 'videoinput');
+
     const select = document.getElementById('v8Lista');
     if (!select) return;
 
     select.innerHTML = '';
     this.devices.forEach((d, i) => {
+      const txt = d.label || `Câmera ${i+1}`;
       const opt = document.createElement('option');
       opt.value = String(i);
-      opt.textContent = d.label || `Câmera ${i+1}`;
+      opt.textContent = txt;
       select.appendChild(opt);
     });
 
@@ -90,13 +92,11 @@ window.V8Cam = {
       if (txt.includes('front')) s -= 120;
       if (txt.includes('frontal')) s -= 120;
       s += Math.max(0, 20 - i);
-
       if (s > bestScore){
         bestScore = s;
         bestIdx = i;
       }
     });
-
     return bestIdx;
   },
 
@@ -104,7 +104,6 @@ window.V8Cam = {
     const ok = await this.pedirPermissao();
     if (!ok) return;
     await this.listar();
-
     if (this.currentIndex >= 0) {
       await this.startByIndex(this.currentIndex);
     } else {
@@ -168,7 +167,6 @@ window.V8Cam = {
       if (!this.detector || this.lock) return;
       const video = document.getElementById('v8Video');
       if (!video || video.readyState < 2) return;
-
       try{
         const found = await this.detector.detect(video);
         if (found && found.length){
@@ -219,8 +217,10 @@ window.V8Cam = {
   },
 
   async trocarCamera(){
-    if (!this.devices.length) await this.listar();
-    if (!this.devices.length) {
+    if (!this.devices.length){
+      await this.listar();
+    }
+    if (!this.devices.length){
       this.status('Nenhuma câmera disponível.');
       return;
     }
@@ -233,7 +233,6 @@ window.V8Cam = {
   async capturarFallback(){
     const video = document.getElementById('v8Video');
     const canvas = document.getElementById('v8Canvas');
-
     if (!video || !canvas || video.readyState < 2){
       this.status('Câmera não está pronta.');
       return;
@@ -243,7 +242,6 @@ window.V8Cam = {
     const h = video.videoHeight || 768;
     canvas.width = w;
     canvas.height = h;
-
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, w, h);
 
@@ -305,7 +303,6 @@ window.V8Cam = {
   async processCode(codigo){
     if (!codigo) return;
     this.lock = true;
-
     try{
       const res = await fetch('/api/produtos', { cache: 'no-store' });
       const produtos = await res.json();
@@ -318,10 +315,8 @@ window.V8Cam = {
         const p = this.normalizeProduct(prod);
         this.beep(true);
         this.vibrar();
-
         if (out) out.innerHTML = `<div class="item sucesso"><strong>${p.codigo}</strong> - ${p.nome}<br>Estoque: ${p.estoque}<br>Endereço: ${p.endereco}</div>`;
         if (sep) sep.innerHTML = `<div class="item">Pedido: AUTO<br>Produto: ${p.codigo}<br>Nome: ${p.nome}<br>Endereço: ${p.endereco}<br>Quantidade: 1</div>`;
-
         const hist = this.getHist();
         hist.unshift({ codigo: p.codigo, nome: p.nome, data: new Date().toLocaleString() });
         this.setHist(hist);
@@ -336,7 +331,6 @@ window.V8Cam = {
       console.error(e);
       this.status('Erro ao validar código.');
     }
-
     setTimeout(() => { this.lock = false; }, 1200);
   }
 };
@@ -344,3 +338,5 @@ window.V8Cam = {
 document.addEventListener('DOMContentLoaded', () => {
   V8Cam.renderHist();
 });
+  }
+};
