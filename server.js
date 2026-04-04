@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 3000;
 
 app.disable('x-powered-by');
 app.use(express.json());
+const separacaoRoutes = require("./server/routes/separacao");
+app.use("/api/separacao", separacaoRoutes);
 app.use(express.urlencoded({ extended: true }));
 
 const DATA_DIR = path.join(__dirname, 'data');

@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": 1,
+    "cliente": "Loja",
+    "produto": "ARZ001",
+    "quantidade": 10,
+    "status": "aberto"
+  }
+]
