@@ -1,8 +1,8 @@
 <div class="card">
   <h2>Separação do Operador</h2>
-  <div class="text-muted">Tela principal do operador. Scanner integrado, fila de picking e confirmação visual no mesmo lugar.</div>
+  <div class="text-muted">Tela principal do operador, com scanner integrado e fila de picking.</div>
 
-  <div class="pick-top">
+  <div class="row">
     <button onclick="SeparacaoUI.carregar()">Atualizar fila</button>
   </div>
 
@@ -13,7 +13,7 @@
 
   <div class="subcard">
     <h3>Scanner integrado</h3>
-    <div class="status-line" id="scanStatus">Pronto para iniciar.</div>
+    <div class="status-line" id="scanStatus">Scanner parado.</div>
 
     <div class="scanner-box">
       <video id="scanVideo" autoplay playsinline muted></video>
@@ -22,14 +22,9 @@
     </div>
 
     <div class="scan-actions">
-      <button class="icon-btn" onclick="SeparacaoScanner.trocarCamera()">🔄</button>
-      <button class="capture-btn" onclick="SeparacaoScanner.capturar()">●</button>
-      <button class="icon-btn" onclick="SeparacaoScanner.parar()">✕</button>
-    </div>
-
-    <div class="row">
-      <button onclick="SeparacaoScanner.iniciar()">Iniciar câmera 4:3</button>
-      <button onclick="SeparacaoScanner.toggleCameras()">Escolher câmera</button>
+      <button class="icon-btn" onclick="SeparacaoScanner.trocarCamera()" title="Trocar câmera">🔄</button>
+      <button class="capture-btn" onclick="SeparacaoScanner.botaoPrincipal()" title="Iniciar ou capturar">●</button>
+      <button class="icon-btn" onclick="SeparacaoScanner.parar()" title="Parar">✕</button>
     </div>
 
     <div class="row hidden" id="scanCamBox">

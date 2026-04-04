@@ -90,14 +90,14 @@ window.SeparacaoScanner = {
             formats: ['code_128', 'ean_13', 'ean_8', 'qr_code', 'upc_a', 'upc_e']
           });
           this.startLoop();
-          this.status(`Usando ${(dev && dev.label) ? dev.label : 'câmera principal'} · leitura automática ativa.`);
+          this.status(`Scanner ativo.`);
         }catch(e){
           this.detector = null;
-          this.status('Detector não disponível. Use captura ou código manual.');
+          this.status('Scanner ativo sem detector automático.');
         }
       } else {
         this.detector = null;
-        this.status('Detector não suportado. Use captura ou código manual.');
+        this.status('Scanner ativo sem detector automático.');
       }
     }catch(e){
       this.status('Erro ao iniciar a câmera.');
@@ -145,24 +145,23 @@ window.SeparacaoScanner = {
     this.status('Scanner parado.');
   },
 
-  toggleCameras(){
-    const box = document.getElementById('scanCamBox');
-    box.classList.toggle('hidden');
-  },
-
   async trocarCamera(){
+    if (!this.stream) {
+      await this.iniciar();
+      return;
+    }
     if (!this.devices.length) await this.listar();
     if (!this.devices.length) return;
     const next = (this.currentIndex + 1) % this.devices.length;
-    document.getElementById('scanLista').value = String(next);
     await this.startByIndex(next);
-    document.getElementById('scanCamBox').classList.add('hidden');
   },
 
-  async usarSelecionada(){
-    const idx = Number(document.getElementById('scanLista').value || 0);
-    await this.startByIndex(idx);
-    document.getElementById('scanCamBox').classList.add('hidden');
+  async botaoPrincipal(){
+    if (!this.stream) {
+      await this.iniciar();
+      return;
+    }
+    await this.capturar();
   },
 
   async capturar(){
@@ -243,31 +242,19 @@ window.SeparacaoScanner = {
       this.beep();
       this.vibrar();
 
+      const proximo = (SeparacaoUI.fila || [])[0];
+      const confere = proximo && String(proximo.produtoCodigo || '').toUpperCase() === String(data.codigo || '').toUpperCase();
+
       document.getElementById('scanResultado').innerHTML = `
         <div class="item sucesso">
           <strong>${data.codigo}</strong> - ${data.nome}<br>
           Estoque: ${data.estoque}<br>
           Endereço: ${data.endereco}
         </div>
+        <div class="item ${confere ? 'sucesso' : 'erro'}">
+          ${confere ? 'Produto confere com o próximo picking.' : 'Produto diferente do próximo picking.'}
+        </div>
       `;
-
-      const proximo = (SeparacaoUI.fila || [])[0];
-      if (proximo) {
-        const confere = String(proximo.produtoCodigo || '').toUpperCase() === String(data.codigo || '').toUpperCase();
-        if (confere) {
-          document.getElementById('scanResultado').innerHTML += `
-            <div class="item sucesso">
-              Produto confere com o próximo picking.
-            </div>
-          `;
-        } else {
-          document.getElementById('scanResultado').innerHTML += `
-            <div class="item erro">
-              Produto diferente do próximo picking.
-            </div>
-          `;
-        }
-      }
 
       if (window.RIOVOZ && typeof window.RIOVOZ.falarSeparacao === 'function') {
         window.RIOVOZ.falarSeparacao({
@@ -286,12 +273,3 @@ window.SeparacaoScanner = {
     setTimeout(()=> this.lock = false, 1200);
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  const select = document.getElementById('scanLista');
-  if (select) {
-    select.addEventListener('change', async () => {
-      await SeparacaoScanner.usarSelecionada();
-    });
-  }
-});
