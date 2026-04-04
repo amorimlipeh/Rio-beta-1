@@ -5,6 +5,7 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -59,12 +60,32 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({ ok: true, app: 'RIOBETA1' });
+  res.json({ ok: true, app: 'RIOBETA1', time: new Date().toISOString() });
 });
 
 app.get('/api/produtos', (req, res) => {
   const produtos = readJson('produtos.json', []).map(normalizeProduct);
   res.json(produtos);
+});
+
+app.get('/api/produtos/busca', (req, res) => {
+  try {
+    const termo = String(req.query.q || '').trim().toUpperCase();
+    const produtos = readJson('produtos.json', []).map(normalizeProduct);
+
+    if (!termo) return res.json([]);
+
+    const encontrados = produtos.filter(p => {
+      const codigo = String(p.codigo || '').toUpperCase();
+      const nome = String(p.nome || '').toUpperCase();
+      return codigo.includes(termo) || nome.includes(termo);
+    }).slice(0, 10);
+
+    res.json(encontrados);
+  } catch (e) {
+    console.error('erro busca produtos', e);
+    res.status(500).json([]);
+  }
 });
 
 app.get('/api/produto/:codigo', (req, res) => {
@@ -142,7 +163,9 @@ app.post('/api/pedidos', (req, res) => {
 });
 
 app.get('/api/separacao', (req, res) => {
-  const pedidos = readJson('pedidos.json', []).filter(p => String(p.status || '').toLowerCase() === 'aberto');
+  const pedidos = readJson('pedidos.json', []).filter(
+    p => String(p.status || '').toLowerCase() === 'aberto'
+  );
   const produtos = readJson('produtos.json', []).map(normalizeProduct);
 
   const fila = pedidos.map(p => {
@@ -170,7 +193,9 @@ app.post('/api/baixa', (req, res) => {
   try {
     const { codigo, quantidade } = req.body || {};
     const produtos = readJson('produtos.json', []).map(normalizeProduct);
-    const idx = produtos.findIndex(p => p.codigo === String(codigo || '').trim().toUpperCase());
+    const idx = produtos.findIndex(
+      p => p.codigo === String(codigo || '').trim().toUpperCase()
+    );
 
     if (idx === -1) {
       return res.json({ erro: true, msg: 'Produto não encontrado' });
@@ -187,6 +212,7 @@ app.post('/api/baixa', (req, res) => {
 
     res.json({ ok: true, estoque: produtos[idx].estoque });
   } catch (e) {
+    console.error('erro baixa', e);
     res.json({ erro: true, msg: 'Erro interno' });
   }
 });
@@ -210,35 +236,6 @@ app.get('*', (req, res) => {
   }
   return res.status(200).send('RIOBETA1 ONLINE');
 });
-
-
-
-// =============================
-// ROTA BUSCA PRODUTOS (FIX)
-// =============================
-app.get('/api/produtos/busca', (req, res) => {
-  try {
-    const termo = String(req.query.q || '').toUpperCase().trim();
-
-    const produtos = readJson('produtos.json', []);
-
-    if (!termo) return res.json([]);
-
-    const encontrados = produtos.filter(p => {
-      const codigo = String(p.codigo || '').toUpperCase();
-      const nome = String(p.nome || '').toUpperCase();
-      return codigo.includes(termo) || nome.includes(termo);
-    });
-
-    res.json(encontrados.slice(0, 10));
-
-  } catch (err) {
-    console.error("ERRO BUSCA PRODUTOS:", err);
-    res.status(500).json([]);
-  }
-});
-
-// ROTA_BUSCA_PRODUTOS_OK
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log('Servidor rodando na porta ' + PORT);

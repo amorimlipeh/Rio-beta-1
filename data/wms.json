@@ -1,5 +1,7 @@
 [
-  { "endereco": "05-001-1-1", "status": "livre" },
-  { "endereco": "05-002-1-1", "status": "ocupado", "produto": "ARZ001" },
-  { "endereco": "05-003-1-1", "status": "bloqueado" }
+  {"endereco":"05-001-3-1","status":"ocupado","produto":"ARZ001"},
+  {"endereco":"05-002-3-1","status":"ocupado","produto":"FEJ002"},
+  {"endereco":"05-003-3-1","status":"ocupado","produto":"MAC003"},
+  {"endereco":"05-004-2-1","status":"ocupado","produto":"OLE004"},
+  {"endereco":"05-005-1-1","status":"ocupado","produto":"CAF005"}
 ]

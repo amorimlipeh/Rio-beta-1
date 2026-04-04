@@ -11,7 +11,10 @@ window.PedidosUI = {
     }
 
     try {
-      const res = await fetch('/api/produtos/busca?q=' + encodeURIComponent(termo) + '&v=' + Date.now(), { cache:'no-store' });
+      const res = await fetch('/api/produtos/busca?q=' + encodeURIComponent(termo) + '&v=' + Date.now(), {
+        cache: 'no-store'
+      });
+
       const encontrados = await res.json();
 
       if (!Array.isArray(encontrados) || !encontrados.length) {
@@ -28,6 +31,7 @@ window.PedidosUI = {
 
       box.classList.remove('hidden');
     } catch (e) {
+      console.log('erro ao buscar produtos', e);
       box.innerHTML = `<div class="suggest-item">Erro ao buscar produtos</div>`;
       box.classList.remove('hidden');
     }
@@ -43,6 +47,7 @@ window.PedidosUI = {
       selecionado.value = `${codigo} - ${nome}`;
       selecionado.dataset.codigo = codigo;
     }
+
     if (box) {
       box.innerHTML = '';
       box.classList.add('hidden');
@@ -54,17 +59,20 @@ window.PedidosUI = {
     if (!termo) return null;
 
     try {
-      const res = await fetch('/api/produtos/busca?q=' + encodeURIComponent(termo) + '&v=' + Date.now(), { cache:'no-store' });
+      const res = await fetch('/api/produtos/busca?q=' + encodeURIComponent(termo) + '&v=' + Date.now(), {
+        cache: 'no-store'
+      });
       const encontrados = await res.json();
       return Array.isArray(encontrados) && encontrados.length ? encontrados[0] : null;
     } catch (e) {
+      console.log('erro resolver backend', e);
       return null;
     }
   },
 
   async carregarPedidos() {
     try {
-      const res = await fetch('/api/pedidos?v=' + Date.now(), { cache:'no-store' });
+      const res = await fetch('/api/pedidos?v=' + Date.now(), { cache: 'no-store' });
       const lista = await res.json();
 
       document.getElementById('pedLista').innerHTML = (Array.isArray(lista) ? lista : []).map(p => `
@@ -122,7 +130,7 @@ window.PedidosUI = {
 
       document.getElementById('pedMsg').textContent = 'Pedido salvo com sucesso.';
 
-      ['pedNumero','pedCliente','pedProdutoBusca','pedProdutoCodigo','pedQtd'].forEach(id => {
+      ['pedNumero', 'pedCliente', 'pedProdutoBusca', 'pedProdutoCodigo', 'pedQtd'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
@@ -137,6 +145,7 @@ window.PedidosUI = {
 
       await this.carregarPedidos();
     } catch (e) {
+      console.log('erro ao salvar pedido', e);
       document.getElementById('pedMsg').textContent = 'Erro ao salvar pedido.';
     }
   }
