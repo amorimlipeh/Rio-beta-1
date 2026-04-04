@@ -14,7 +14,6 @@ window.PedidosUI = {
       const res = await fetch('/api/produtos/busca?q=' + encodeURIComponent(termo) + '&v=' + Date.now(), {
         cache: 'no-store'
       });
-
       const encontrados = await res.json();
 
       if (!Array.isArray(encontrados) || !encontrados.length) {
@@ -31,7 +30,6 @@ window.PedidosUI = {
 
       box.classList.remove('hidden');
     } catch (e) {
-      console.log('erro ao buscar produtos', e);
       box.innerHTML = `<div class="suggest-item">Erro ao buscar produtos</div>`;
       box.classList.remove('hidden');
     }
@@ -47,7 +45,6 @@ window.PedidosUI = {
       selecionado.value = `${codigo} - ${nome}`;
       selecionado.dataset.codigo = codigo;
     }
-
     if (box) {
       box.innerHTML = '';
       box.classList.add('hidden');
@@ -57,7 +54,6 @@ window.PedidosUI = {
   async resolverProdutoNoBackend(texto) {
     const termo = String(texto || '').trim();
     if (!termo) return null;
-
     try {
       const res = await fetch('/api/produtos/busca?q=' + encodeURIComponent(termo) + '&v=' + Date.now(), {
         cache: 'no-store'
@@ -65,7 +61,6 @@ window.PedidosUI = {
       const encontrados = await res.json();
       return Array.isArray(encontrados) && encontrados.length ? encontrados[0] : null;
     } catch (e) {
-      console.log('erro resolver backend', e);
       return null;
     }
   },
@@ -145,7 +140,6 @@ window.PedidosUI = {
 
       await this.carregarPedidos();
     } catch (e) {
-      console.log('erro ao salvar pedido', e);
       document.getElementById('pedMsg').textContent = 'Erro ao salvar pedido.';
     }
   }

@@ -1,37 +1,8 @@
 <div class="card">
   <h2>Estoque</h2>
-  <div class="text-muted">Área de cadastro e movimentação. O catálogo visual fica em Produtos.</div>
-
-  <div class="subcard">
-    <h3>Cadastrar produto</h3>
-    <div class="row">
-      <input id="estCodigo" placeholder="Código" />
-      <input id="estNome" placeholder="Nome do produto" />
-      <input id="estEndereco" placeholder="Endereço WMS" />
-      <input id="estImagem" placeholder="URL da imagem (opcional)" />
-      <input id="estFator" placeholder="Fator / caixas" />
-      <button onclick="EstoqueUI.salvarProduto()">Salvar produto</button>
-    </div>
-    <div id="estMsgCadastro" class="text-muted" style="margin-top:10px;"></div>
-  </div>
-
-  <div class="subcard">
-    <h3>Movimentar estoque</h3>
-    <div class="row">
-      <input id="movCodigo" placeholder="Código do produto" />
-      <input id="movQtd" placeholder="Quantidade" />
-      <select id="movTipo">
-        <option value="entrada">Entrada</option>
-        <option value="saida">Saída</option>
-      </select>
-      <button onclick="EstoqueUI.movimentar()">Salvar movimento</button>
-    </div>
-    <div id="estMsgMov" class="text-muted" style="margin-top:10px;"></div>
-  </div>
-
   <div class="subcard">
     <h3>Resumo de estoque</h3>
-    <div class="list" id="estoqueLista"></div>
+    <div class="list" id="estLista"></div>
   </div>
 </div>
 <script src="/js/estoque-ui.js"></script>

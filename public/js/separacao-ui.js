@@ -1,50 +1,66 @@
-window.SeparacaoUI = {
+window.Separacao = {
+  atual: null,
   fila: [],
 
-  async carregar(){
-    const res = await fetch('/api/separacao', { cache:'no-store' });
-    this.fila = await res.json();
+  async carregar() {
+    const res = await fetch('/api/separacao?v=' + Date.now(), { cache:'no-store' });
+    const data = await res.json();
 
-    const proximo = this.fila[0];
-    document.getElementById('sepProximo').innerHTML = proximo ? `
-      <div class="item sucesso">
-        <div class="badge">Próximo</div><br>
-        <strong>Pedido:</strong> ${proximo.pedido}<br>
-        <strong>Produto:</strong> ${proximo.produtoCodigo}<br>
-        <strong>Nome:</strong> ${proximo.nome}<br>
-        <strong>Endereço:</strong> ${proximo.endereco}<br>
-        <strong>Quantidade:</strong> ${proximo.quantidade}<br>
-        <strong>Estoque:</strong> ${proximo.estoque}<br>
-        <strong>Cliente:</strong> ${proximo.cliente}<br><br>
-        <button onclick='SeparacaoUI.falarProximo()'>Falar picking</button>
-      </div>
-    ` : '<div class="item">Sem pedidos abertos.</div>';
+    this.fila = Array.isArray(data) ? data : [];
+    this.atual = this.fila[0] || null;
 
-    document.getElementById('sepLista').innerHTML = (this.fila || []).map((p, idx) => `
-      <div class="item">
-        <div class="badge">${idx === 0 ? 'Próximo' : 'Fila'}</div><br>
-        <strong>Pedido:</strong> ${p.pedido}<br>
-        <strong>Produto:</strong> ${p.produtoCodigo}<br>
-        <strong>Nome:</strong> ${p.nome}<br>
-        <strong>Endereço:</strong> ${p.endereco}<br>
-        <strong>Quantidade:</strong> ${p.quantidade}<br>
-        <strong>Estoque:</strong> ${p.estoque}<br>
-        <strong>Cliente:</strong> ${p.cliente}
+    document.getElementById('sepBox').innerHTML = this.atual ? `
+      <div class="item ok">
+        <strong>${this.atual.codigo || this.atual.produtoCodigo} - ${this.atual.nome}</strong><br>
+        Endereço: ${this.atual.endereco}<br>
+        Quantidade: ${this.atual.quantidade}<br>
+        Estoque: ${this.atual.estoque}<br>
+        Cliente: ${this.atual.cliente}
       </div>
-    `).join('') || '<div class="item">Sem pedidos abertos.</div>';
+    ` : '<div class="item">Sem pedidos para separar.</div>';
+
+    document.getElementById('sepFila').innerHTML = this.fila.map((p, idx) => `
+      <div class="item ${idx === 0 ? 'ok' : ''}">
+        <strong>${p.pedido}</strong><br>
+        Produto: ${p.produtoCodigo}<br>
+        Nome: ${p.nome}<br>
+        Endereço: ${p.endereco}<br>
+        Quantidade: ${p.quantidade}
+      </div>
+    `).join('') || '<div class="item">Fila vazia.</div>';
   },
 
-  falarProximo(){
-    const p = this.fila[0];
-    if (!p) return;
-    if (window.RIOVOZ && typeof window.RIOVOZ.falarSeparacao === 'function') {
-      window.RIOVOZ.falarSeparacao({
-        nome: p.nome,
-        endereco: p.endereco,
-        quantidade: p.quantidade
-      });
+  async confirmar() {
+    const codigoDigitado = String(document.getElementById('scanCodigo')?.value || '').trim().toUpperCase();
+
+    if (!this.atual) return;
+
+    if (codigoDigitado !== String(this.atual.produtoCodigo || '').trim().toUpperCase()) {
+      document.getElementById('sepMsg').textContent = 'Produto errado ❌';
+      return;
+    }
+
+    const res = await fetch('/api/separacao/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        codigo: this.atual.produtoCodigo,
+        quantidade: this.atual.quantidade
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.ok) {
+      document.getElementById('sepMsg').textContent = 'Separado com sucesso ✅';
+      document.getElementById('scanCodigo').value = '';
+      await this.carregar();
+    } else {
+      document.getElementById('sepMsg').textContent = data.msg || 'Erro';
     }
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => SeparacaoUI.carregar());
+document.addEventListener('DOMContentLoaded', () => {
+  Separacao.carregar();
+});

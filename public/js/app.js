@@ -5,6 +5,7 @@ window.abrirModulo = async function(modulo) {
   try {
     const res = await fetch(`/modules/${modulo}.html?v=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('Módulo não encontrado');
+
     container.innerHTML = await res.text();
 
     document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('ativo'));

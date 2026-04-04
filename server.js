@@ -38,12 +38,22 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA_DIR, file), JSON.stringify(data, null, 2), 'utf8');
 }
 
+function normalizarEndereco(v) {
+  if (!v) return 'Não definido';
+  const limpo = String(v).replace(/\D/g, '');
+  if (limpo.length === 7) {
+    return `${limpo.slice(0,2)}-${limpo.slice(2,5)}-${limpo.slice(5,6)}-${limpo.slice(6,7)}`;
+  }
+  if (String(v).includes('-')) return String(v);
+  return String(v);
+}
+
 function normalizeProduct(p) {
   return {
     id: p.id || Date.now(),
     codigo: String(p.codigo || '').trim().toUpperCase(),
     nome: String(p.nome || 'Produto sem nome').trim(),
-    endereco: String(p.endereco || 'Não definido').trim() || 'Não definido',
+    endereco: normalizarEndereco(p.endereco || 'Não definido'),
     estoque: Number(p.estoque ?? 0),
     imagem: p.imagem || '',
     fator: Number(p.fator ?? 1)
@@ -64,8 +74,7 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/api/produtos', (req, res) => {
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  res.json(produtos);
+  res.json(readJson('produtos.json', []).map(normalizeProduct));
 });
 
 app.get('/api/produtos/busca', (req, res) => {
@@ -92,11 +101,7 @@ app.get('/api/produto/:codigo', (req, res) => {
   const codigo = String(req.params.codigo || '').trim().toUpperCase();
   const produtos = readJson('produtos.json', []).map(normalizeProduct);
   const item = produtos.find(p => p.codigo === codigo);
-
-  if (!item) {
-    return res.json({ erro: true, msg: 'Produto não encontrado' });
-  }
-
+  if (!item) return res.json({ erro: true, msg: 'Produto não encontrado' });
   res.json(item);
 });
 
@@ -126,13 +131,11 @@ app.post('/api/produtos', (req, res) => {
 
   produtos.unshift(novo);
   writeJson('produtos.json', produtos);
-
   res.json({ ok: true, item: novo });
 });
 
 app.get('/api/pedidos', (req, res) => {
-  const pedidos = readJson('pedidos.json', []);
-  res.json(pedidos);
+  res.json(readJson('pedidos.json', []));
 });
 
 app.post('/api/pedidos', (req, res) => {
@@ -158,7 +161,6 @@ app.post('/api/pedidos', (req, res) => {
 
   pedidos.unshift(novo);
   writeJson('pedidos.json', pedidos);
-
   res.json({ ok: true, item: novo });
 });
 
@@ -184,37 +186,41 @@ app.get('/api/separacao', (req, res) => {
   res.json(fila);
 });
 
-app.get('/api/wms', (req, res) => {
-  const wms = readJson('wms.json', []);
-  res.json(wms);
-});
-
-app.post('/api/baixa', (req, res) => {
+app.post('/api/separacao/confirmar', (req, res) => {
   try {
     const { codigo, quantidade } = req.body || {};
     const produtos = readJson('produtos.json', []).map(normalizeProduct);
+    const pedidos = readJson('pedidos.json', []);
+
     const idx = produtos.findIndex(
       p => p.codigo === String(codigo || '').trim().toUpperCase()
     );
 
-    if (idx === -1) {
-      return res.json({ erro: true, msg: 'Produto não encontrado' });
-    }
+    if (idx === -1) return res.json({ erro: true, msg: 'Produto não encontrado' });
 
     const qtd = Number(quantidade || 1);
-
-    if (produtos[idx].estoque < qtd) {
-      return res.json({ erro: true, msg: 'Sem estoque' });
-    }
+    if (produtos[idx].estoque < qtd) return res.json({ erro: true, msg: 'Estoque insuficiente' });
 
     produtos[idx].estoque -= qtd;
+
+    const pedIdx = pedidos.findIndex(
+      p => String(p.produtoCodigo || '').toUpperCase() === String(codigo || '').trim().toUpperCase() &&
+           String(p.status || '').toLowerCase() === 'aberto'
+    );
+    if (pedIdx !== -1) pedidos[pedIdx].status = 'separado';
+
     writeJson('produtos.json', produtos);
+    writeJson('pedidos.json', pedidos);
 
     res.json({ ok: true, estoque: produtos[idx].estoque });
   } catch (e) {
-    console.error('erro baixa', e);
+    console.error('erro confirmar separacao', e);
     res.json({ erro: true, msg: 'Erro interno' });
   }
+});
+
+app.get('/api/wms', (req, res) => {
+  res.json(readJson('wms.json', []));
 });
 
 app.get('/modules-list', (req, res) => {
@@ -231,93 +237,9 @@ app.use(express.static(PUBLIC_DIR, { etag: false, maxAge: 0 }));
 
 app.get('*', (req, res) => {
   const indexFile = path.join(PUBLIC_DIR, 'index.html');
-  if (fs.existsSync(indexFile)) {
-    return res.sendFile(indexFile);
-  }
+  if (fs.existsSync(indexFile)) return res.sendFile(indexFile);
   return res.status(200).send('RIOBETA1 ONLINE');
 });
-
-
-
-// =============================
-// NORMALIZAR ENDEREÇO
-// =============================
-function normalizarEndereco(e) {
-  if (!e) return "Não definido";
-
-  e = String(e).replace(/\D/g, '');
-
-  if (e.length === 7) {
-    return `${e.slice(0,2)}-${e.slice(2,5)}-${e.slice(5,6)}-${e.slice(6,7)}`;
-  }
-
-  if (e.includes('-')) return e;
-
-  return e;
-}
-
-// =============================
-// SEPARAÇÃO PROFISSIONAL
-// =============================
-app.get('/api/separacao/proxima', (req, res) => {
-  const pedidos = readJson('pedidos.json', []).filter(p => p.status === 'aberto');
-  const produtos = readJson('produtos.json', []);
-
-  if (!pedidos.length) {
-    return res.json({ vazio: true });
-  }
-
-  const pedido = pedidos[0];
-  const produto = produtos.find(p => p.codigo === pedido.produtoCodigo);
-
-  if (!produto) {
-    return res.json({ erro: true, msg: 'Produto não encontrado' });
-  }
-
-  res.json({
-    pedido: pedido.numero,
-    cliente: pedido.cliente,
-    codigo: produto.codigo,
-    nome: produto.nome,
-    endereco: normalizarEndereco(produto.endereco),
-    quantidade: pedido.quantidade,
-    estoque: produto.estoque
-  });
-});
-
-// =============================
-// CONFIRMAR SEPARAÇÃO
-// =============================
-app.post('/api/separacao/confirmar', (req, res) => {
-  const { codigo, quantidade } = req.body;
-
-  let produtos = readJson('produtos.json', []);
-  let pedidos = readJson('pedidos.json', []);
-
-  const idx = produtos.findIndex(p => p.codigo === codigo);
-
-  if (idx === -1) {
-    return res.json({ erro: true, msg: 'Produto não encontrado' });
-  }
-
-  if (produtos[idx].estoque < quantidade) {
-    return res.json({ erro: true, msg: 'Estoque insuficiente' });
-  }
-
-  produtos[idx].estoque -= quantidade;
-
-  const pedIdx = pedidos.findIndex(p => p.produtoCodigo === codigo && p.status === 'aberto');
-  if (pedIdx !== -1) {
-    pedidos[pedIdx].status = 'separado';
-  }
-
-  writeJson('produtos.json', produtos);
-  writeJson('pedidos.json', pedidos);
-
-  res.json({ ok: true });
-});
-
-// WMS_PRO_MODE
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log('Servidor rodando na porta ' + PORT);

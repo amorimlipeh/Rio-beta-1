@@ -3,17 +3,17 @@
 
   <div class="subcard">
     <h3>Próximo item</h3>
-
-    <div id="sepBox">
-      <div class="item">Carregando...</div>
+    <div id="sepBox" class="list"></div>
+    <div class="row">
+      <input id="scanCodigo" placeholder="Escaneie ou digite o código" />
+      <button onclick="Separacao.confirmar()">Confirmar coleta</button>
     </div>
+    <div id="sepMsg" style="margin-top:10px;"></div>
+  </div>
 
-    <input id="scanCodigo" placeholder="Escaneie ou digite código" />
-
-    <button onclick="Separacao.confirmar()">Confirmar coleta</button>
-
-    <div id="sepMsg"></div>
+  <div class="subcard">
+    <h3>Fila atual</h3>
+    <div id="sepFila" class="list"></div>
   </div>
 </div>
-
-<script src="/js/separacao.js"></script>
+<script src="/js/separacao-ui.js"></script>
