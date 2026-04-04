@@ -2,30 +2,11 @@
   <h2>Separação</h2>
 
   <div class="subcard">
-    <h3>Próximo item</h3>
-    <div id="sepProximo" class="list"></div>
+    <div id="sepAtual"></div>
 
-    <div class="row">
-      <button onclick="SeparacaoUI.falarAtual()">🔊 Falar picking</button>
-    </div>
-  </div>
+    <input id="sepCodigo" placeholder="Escaneie ou digite o código" autofocus />
 
-  <div class="subcard">
-    <h3>Scanner integrado</h3>
-    <div id="sepStatus" class="item">Scanner pronto.</div>
-
-    <div class="row">
-      <input id="sepCodigo" placeholder="Escaneie ou digite o código" />
-      <button onclick="SeparacaoUI.validarCodigo()">Validar código</button>
-      <button onclick="SeparacaoUI.confirmarColeta()">Confirmar coleta</button>
-    </div>
-
-    <div id="sepResultado" class="list"></div>
-  </div>
-
-  <div class="subcard">
-    <h3>Fila atual</h3>
-    <div id="sepFila" class="list"></div>
+    <div id="sepFeedback"></div>
   </div>
 </div>
 
