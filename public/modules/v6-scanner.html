@@ -4,17 +4,16 @@
   <select id="listaCameras" style="width:100%;margin-bottom:10px;"></select>
 
   <button onclick="usarCameraSelecionada()">Usar câmera selecionada</button>
-
-  <button onclick="iniciarCamera()">Iniciar câmera traseira</button>
+  <button onclick="iniciarCameraPrincipal()">Iniciar câmera principal</button>
   <button onclick="pararCamera()">Parar câmera</button>
 
   <input id="codigoManual" placeholder="Código manual" />
-  <button onclick="alert('Validar depois')">Validar código</button>
+  <button onclick="validarManual()">Validar código</button>
 
   <p id="status"></p>
 
   <h3>Pré-visualização</h3>
-  <video id="video" autoplay playsinline style="width:100%;border-radius:10px;"></video>
+  <video id="video" autoplay playsinline style="width:100%;border-radius:10px;background:#000;"></video>
 
   <h3>Resultado atual</h3>
   <div id="resultado"></div>
