@@ -16,7 +16,6 @@ window.PedidosUI = {
   buscarProdutos() {
     const termo = String(document.getElementById('pedProdutoBusca')?.value || '').trim().toUpperCase();
     const box = document.getElementById('pedSugestoes');
-
     if (!box) return;
 
     if (!termo) {
@@ -29,7 +28,7 @@ window.PedidosUI = {
       const codigo = String(p.codigo || '').toUpperCase();
       const nome = String(p.nome || '').toUpperCase();
       return codigo.includes(termo) || nome.includes(termo);
-    }).slice(0, 10);
+    }).slice(0, 8);
 
     if (!encontrados.length) {
       box.innerHTML = `<div class="suggest-item">Nenhum produto encontrado</div>`;
@@ -63,6 +62,25 @@ window.PedidosUI = {
     }
   },
 
+  resolverProdutoDigitado(texto) {
+    const termo = String(texto || '').trim().toUpperCase();
+    if (!termo) return null;
+
+    const exatoCodigo = this.produtos.find(p => String(p.codigo || '').toUpperCase() === termo);
+    if (exatoCodigo) return exatoCodigo;
+
+    const exatoNome = this.produtos.find(p => String(p.nome || '').toUpperCase() === termo);
+    if (exatoNome) return exatoNome;
+
+    const porCodigo = this.produtos.find(p => String(p.codigo || '').toUpperCase().includes(termo));
+    if (porCodigo) return porCodigo;
+
+    const porNome = this.produtos.find(p => String(p.nome || '').toUpperCase().includes(termo));
+    if (porNome) return porNome;
+
+    return null;
+  },
+
   async carregarPedidos() {
     try {
       const res = await fetch('/api/pedidos?v=' + Date.now(), { cache: 'no-store' });
@@ -86,8 +104,21 @@ window.PedidosUI = {
     const numero = document.getElementById('pedNumero')?.value || '';
     const cliente = document.getElementById('pedCliente')?.value || '';
     const quantidade = document.getElementById('pedQtd')?.value || '';
+    const busca = document.getElementById('pedProdutoBusca')?.value || '';
     const selecionado = document.getElementById('pedProdutoCodigo');
-    const produtoCodigo = selecionado?.dataset?.codigo || '';
+
+    let produtoCodigo = selecionado?.dataset?.codigo || '';
+
+    if (!produtoCodigo) {
+      const produtoResolvido = this.resolverProdutoDigitado(busca);
+      if (produtoResolvido) {
+        produtoCodigo = produtoResolvido.codigo;
+        if (selecionado) {
+          selecionado.value = `${produtoResolvido.codigo} - ${produtoResolvido.nome}`;
+          selecionado.dataset.codigo = produtoResolvido.codigo;
+        }
+      }
+    }
 
     if (!cliente || !produtoCodigo || !quantidade) {
       document.getElementById('pedMsg').textContent = 'Cliente, produto e quantidade são obrigatórios.';
@@ -115,9 +146,7 @@ window.PedidosUI = {
         if (el) el.value = '';
       });
 
-      if (selecionado?.dataset) {
-        delete selecionado.dataset.codigo;
-      }
+      if (selecionado?.dataset) delete selecionado.dataset.codigo;
 
       const box = document.getElementById('pedSugestoes');
       if (box) {
