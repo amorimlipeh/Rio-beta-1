@@ -1,6 +1,6 @@
 window.RIOVOZ = {
-  liberado: false,
   vozSelecionada: null,
+  destravada: false,
 
   carregarVozes() {
     const vozes = window.speechSynthesis.getVoices() || [];
@@ -11,17 +11,16 @@ window.RIOVOZ = {
       null;
   },
 
-  desbloquear() {
+  destravar() {
     try {
-      const u = new SpeechSynthesisUtterance('voz ativada');
-      u.volume = 0.2;
-      u.rate = 1;
-      u.pitch = 1;
+      this.carregarVozes();
+      const u = new SpeechSynthesisUtterance(' ');
+      u.volume = 0;
       u.lang = this.vozSelecionada?.lang || 'pt-BR';
       if (this.vozSelecionada) u.voice = this.vozSelecionada;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(u);
-      this.liberado = true;
+      this.destravada = true;
     } catch (e) {}
   },
 
@@ -45,6 +44,7 @@ window.RIOVOZ = {
 
     const endereco = String(data.endereco || '');
     let rua = '', pos = '', andar = '';
+
     if (endereco.includes('-')) {
       const partes = endereco.split('-');
       rua = partes[0] || '';
@@ -74,3 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
     window.speechSynthesis.onvoiceschanged = () => RIOVOZ.carregarVozes();
   }
 });
+
+document.addEventListener('click', () => {
+  if (!RIOVOZ.destravada) RIOVOZ.destravar();
+}, { once:true });

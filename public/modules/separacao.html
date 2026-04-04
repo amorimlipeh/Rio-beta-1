@@ -1,13 +1,55 @@
 <div class="card">
   <h2>Separação do Operador</h2>
-  <div class="text-muted">Fila operacional para o operador. O scanner apoia esta tela; aqui fica a lista real de pedidos abertos.</div>
+  <div class="text-muted">Tela principal do operador. Scanner integrado, fila de picking e confirmação visual no mesmo lugar.</div>
 
-  <div class="row">
-    <button onclick="RIOVOZ.desbloquear()">Ativar voz</button>
-    <button onclick="SeparacaoUI.carregar()">Atualizar</button>
+  <div class="pick-top">
+    <button onclick="SeparacaoUI.carregar()">Atualizar fila</button>
   </div>
 
-  <div class="list" id="sepLista"></div>
+  <div class="subcard">
+    <h3>Próximo picking</h3>
+    <div id="sepProximo" class="list"></div>
+  </div>
+
+  <div class="subcard">
+    <h3>Scanner integrado</h3>
+    <div class="status-line" id="scanStatus">Pronto para iniciar.</div>
+
+    <div class="scanner-box">
+      <video id="scanVideo" autoplay playsinline muted></video>
+      <canvas id="scanCanvas" class="hidden"></canvas>
+      <div class="scan-area"></div>
+    </div>
+
+    <div class="scan-actions">
+      <button class="icon-btn" onclick="SeparacaoScanner.trocarCamera()">🔄</button>
+      <button class="capture-btn" onclick="SeparacaoScanner.capturar()">●</button>
+      <button class="icon-btn" onclick="SeparacaoScanner.parar()">✕</button>
+    </div>
+
+    <div class="row">
+      <button onclick="SeparacaoScanner.iniciar()">Iniciar câmera 4:3</button>
+      <button onclick="SeparacaoScanner.toggleCameras()">Escolher câmera</button>
+    </div>
+
+    <div class="row hidden" id="scanCamBox">
+      <select id="scanLista"></select>
+    </div>
+
+    <div class="row">
+      <input id="scanManual" placeholder="Código manual" />
+      <button onclick="SeparacaoScanner.validarManual()">Validar código</button>
+    </div>
+
+    <div class="list" id="scanResultado"></div>
+  </div>
+
+  <div class="subcard">
+    <h3>Fila de separação</h3>
+    <div class="list" id="sepLista"></div>
+  </div>
 </div>
+
 <script src="/js/voz.js"></script>
 <script src="/js/separacao-ui.js"></script>
+<script src="/js/separacao-scanner.js"></script>

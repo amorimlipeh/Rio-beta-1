@@ -1,14 +1,19 @@
 <div class="card">
   <h2>Pedidos</h2>
+
   <div class="subcard">
     <h3>Novo pedido</h3>
+
     <div class="row">
       <input id="pedNumero" placeholder="Número do pedido (opcional)" />
       <input id="pedCliente" placeholder="Cliente" />
-      <select id="pedProduto"></select>
+      <input id="pedProdutoBusca" placeholder="Buscar produto por código ou nome" oninput="PedidosUI.buscarProdutos()" />
+      <div id="pedSugestoes" class="suggest-box hidden"></div>
+      <input id="pedProdutoCodigo" placeholder="Produto selecionado" readonly />
       <input id="pedQtd" placeholder="Quantidade" />
       <button onclick="PedidosUI.salvar()">Salvar pedido</button>
     </div>
+
     <div id="pedMsg" class="text-muted" style="margin-top:10px;"></div>
   </div>
 
