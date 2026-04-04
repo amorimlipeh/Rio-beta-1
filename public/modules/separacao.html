@@ -3,12 +3,24 @@
 
   <div class="subcard">
     <h3>Próximo item</h3>
-    <div id="sepBox" class="list"></div>
+    <div id="sepProximo" class="list"></div>
+
     <div class="row">
-      <input id="scanCodigo" placeholder="Escaneie ou digite o código" />
-      <button onclick="Separacao.confirmar()">Confirmar coleta</button>
+      <button onclick="SeparacaoUI.falarAtual()">🔊 Falar picking</button>
     </div>
-    <div id="sepMsg" style="margin-top:10px;"></div>
+  </div>
+
+  <div class="subcard">
+    <h3>Scanner integrado</h3>
+    <div id="sepStatus" class="item">Scanner pronto.</div>
+
+    <div class="row">
+      <input id="sepCodigo" placeholder="Escaneie ou digite o código" />
+      <button onclick="SeparacaoUI.validarCodigo()">Validar código</button>
+      <button onclick="SeparacaoUI.confirmarColeta()">Confirmar coleta</button>
+    </div>
+
+    <div id="sepResultado" class="list"></div>
   </div>
 
   <div class="subcard">
@@ -16,4 +28,6 @@
     <div id="sepFila" class="list"></div>
   </div>
 </div>
+
+<script src="/js/voz-picking.js"></script>
 <script src="/js/separacao-ui.js"></script>
