@@ -1,20 +1,21 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 LOG="$HOME/RIOBETA1/logs/onauto.log"
+
 mkdir -p "$HOME/RIOBETA1/logs"
-touch "$LOG"
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') 🚀 ONAUTO ligado" >> "$LOG"
+echo "$(date '+%H:%M:%S') 🚀 ONAUTO INICIADO" >> "$LOG"
 
-pkill -f "monitor-downloads.sh" 2>/dev/null
-pkill -f "status-monitor.sh" 2>/dev/null
+pkill -f monitor-downloads.sh 2>/dev/null
+pkill -f status-monitor.sh 2>/dev/null
+pkill -f railway-monitor.sh 2>/dev/null
 
 sleep 1
 
-[ -x "$HOME/RIOBETA1/auto/monitor-downloads.sh" ] && \
-  nohup bash "$HOME/RIOBETA1/auto/monitor-downloads.sh" >> "$LOG" 2>&1 &
+nohup bash "$HOME/RIOBETA1/auto/monitor-downloads.sh" >> "$LOG" 2>&1 &
+nohup bash "$HOME/RIOBETA1/auto/status-monitor.sh" >> "$LOG" 2>&1 &
+nohup bash "$HOME/RIOBETA1/auto/railway-monitor.sh" >> "$LOG" 2>&1 &
 
-[ -x "$HOME/RIOBETA1/auto/status-monitor.sh" ] && \
-  nohup bash "$HOME/RIOBETA1/auto/status-monitor.sh" >> "$LOG" 2>&1 &
+echo "🔥 ONAUTO ATIVO (DOWNLOAD + STATUS + RAILWAY)"
 
 exec bash "$HOME/RIOBETA1/auto/status-dashboard.sh"

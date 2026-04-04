@@ -86,6 +86,15 @@ draw() {
   echo "Hash: $(git rev-parse --short HEAD 2>/dev/null || echo '-')"
 
   echo
+echo ""
+echo "🌐 Railway:"
+STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://rio-beta-1-production.up.railway.app)
+if [ "$STATUS" = "200" ]; then
+  echo "🟢 ONLINE"
+else
+  echo "🔴 ERRO ($STATUS)"
+fi
+
   echo "📜 Últimos logs:"
   tail -n 10 "$LOG" 2>/dev/null || echo "Sem logs ainda"
 
