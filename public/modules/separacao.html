@@ -3,24 +3,71 @@
 
   <div class="subcard">
     <h3>Próximo item</h3>
-    <div id="sepAtual" class="list">
-      <div class="item">Carregando...</div>
-    </div>
+    <div id="sepAtual">Carregando...</div>
 
-    <div class="row">
-      <input id="sepCodigo" placeholder="Escaneie ou digite o código" autofocus />
-      <button id="sepBtnConfirmar" type="button">Confirmar coleta</button>
-    </div>
+    <input id="sepCodigo" placeholder="Escaneie ou digite o código" />
+    <button onclick="confirmarColeta()">Confirmar coleta</button>
 
-    <div id="sepMsg" style="margin-top:10px;"></div>
+    <div id="sepMsg"></div>
   </div>
 
   <div class="subcard">
     <h3>Fila atual</h3>
-    <div id="sepLista" class="list">
-      <div class="item">Carregando...</div>
-    </div>
+    <div id="sepLista">Carregando...</div>
   </div>
 </div>
 
-<script src="/js/separacao.js"></script>
+<script>
+async function carregarSeparacao() {
+  try {
+    const res = await fetch('/api/separacao?v=' + Date.now());
+    const data = await res.json();
+
+    if (!data || data.length === 0) {
+      document.getElementById('sepAtual').innerHTML = "Sem pedidos";
+      document.getElementById('sepLista').innerHTML = "";
+      return;
+    }
+
+    const atual = data[0];
+
+    document.getElementById('sepAtual').innerHTML = `
+      <b>${atual.nome}</b><br>
+      Código: ${atual.produtoCodigo}<br>
+      Endereço: ${atual.endereco}<br>
+      Quantidade: ${atual.quantidade}<br>
+      Cliente: ${atual.cliente}
+    `;
+
+    document.getElementById('sepLista').innerHTML = data.map(p => `
+      <div>
+        ${p.produtoCodigo} - ${p.quantidade}
+      </div>
+    `).join('');
+
+  } catch (e) {
+    document.getElementById('sepAtual').innerHTML = "Erro ao carregar";
+  }
+}
+
+async function confirmarColeta() {
+  const input = document.getElementById('sepCodigo');
+  const codigo = input.value.trim();
+
+  if (!codigo) return;
+
+  await fetch('/api/separacao/confirmar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      codigo,
+      quantidade: 1
+    })
+  });
+
+  input.value = "";
+  carregarSeparacao();
+}
+
+document.addEventListener('DOMContentLoaded', carregarSeparacao);
+</script>
