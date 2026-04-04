@@ -237,6 +237,88 @@ app.get('*', (req, res) => {
   return res.status(200).send('RIOBETA1 ONLINE');
 });
 
+
+
+// =============================
+// NORMALIZAR ENDEREÇO
+// =============================
+function normalizarEndereco(e) {
+  if (!e) return "Não definido";
+
+  e = String(e).replace(/\D/g, '');
+
+  if (e.length === 7) {
+    return `${e.slice(0,2)}-${e.slice(2,5)}-${e.slice(5,6)}-${e.slice(6,7)}`;
+  }
+
+  if (e.includes('-')) return e;
+
+  return e;
+}
+
+// =============================
+// SEPARAÇÃO PROFISSIONAL
+// =============================
+app.get('/api/separacao/proxima', (req, res) => {
+  const pedidos = readJson('pedidos.json', []).filter(p => p.status === 'aberto');
+  const produtos = readJson('produtos.json', []);
+
+  if (!pedidos.length) {
+    return res.json({ vazio: true });
+  }
+
+  const pedido = pedidos[0];
+  const produto = produtos.find(p => p.codigo === pedido.produtoCodigo);
+
+  if (!produto) {
+    return res.json({ erro: true, msg: 'Produto não encontrado' });
+  }
+
+  res.json({
+    pedido: pedido.numero,
+    cliente: pedido.cliente,
+    codigo: produto.codigo,
+    nome: produto.nome,
+    endereco: normalizarEndereco(produto.endereco),
+    quantidade: pedido.quantidade,
+    estoque: produto.estoque
+  });
+});
+
+// =============================
+// CONFIRMAR SEPARAÇÃO
+// =============================
+app.post('/api/separacao/confirmar', (req, res) => {
+  const { codigo, quantidade } = req.body;
+
+  let produtos = readJson('produtos.json', []);
+  let pedidos = readJson('pedidos.json', []);
+
+  const idx = produtos.findIndex(p => p.codigo === codigo);
+
+  if (idx === -1) {
+    return res.json({ erro: true, msg: 'Produto não encontrado' });
+  }
+
+  if (produtos[idx].estoque < quantidade) {
+    return res.json({ erro: true, msg: 'Estoque insuficiente' });
+  }
+
+  produtos[idx].estoque -= quantidade;
+
+  const pedIdx = pedidos.findIndex(p => p.produtoCodigo === codigo && p.status === 'aberto');
+  if (pedIdx !== -1) {
+    pedidos[pedIdx].status = 'separado';
+  }
+
+  writeJson('produtos.json', produtos);
+  writeJson('pedidos.json', pedidos);
+
+  res.json({ ok: true });
+});
+
+// WMS_PRO_MODE
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log('Servidor rodando na porta ' + PORT);
 });

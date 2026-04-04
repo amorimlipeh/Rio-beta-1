@@ -1,52 +1,58 @@
 window.Separacao = {
-  pedidos: [],
-  produtos: [],
+  atual: null,
 
-  async carregar(){
-    const [peds, prods] = await Promise.all([
-      fetch('/api/pedidos', { cache: 'no-store' }).then(r=>r.json()),
-      fetch('/api/produtos', { cache: 'no-store' }).then(r=>r.json())
-    ]);
+  async carregar() {
+    const res = await fetch('/api/separacao/proxima');
+    const data = await res.json();
 
-    this.pedidos = Array.isArray(peds) ? peds : [];
-    this.produtos = Array.isArray(prods) ? prods : [];
+    if (data.vazio) {
+      document.getElementById('sepBox').innerHTML = '<div class="item">Sem pedidos</div>';
+      return;
+    }
 
-    this.render();
+    if (data.erro) {
+      document.getElementById('sepBox').innerHTML = '<div class="item">Erro</div>';
+      return;
+    }
+
+    this.atual = data;
+
+    document.getElementById('sepBox').innerHTML = `
+      <div class="item">
+        <strong>${data.codigo} - ${data.nome}</strong><br>
+        Endereço: ${data.endereco}<br>
+        Quantidade: ${data.quantidade}<br>
+        Estoque: ${data.estoque}<br>
+        Cliente: ${data.cliente}
+      </div>
+    `;
   },
 
-  normalizarPedido(p){
-    return {
-      numero: p.numero || p.id || 'Sem número',
-      produtoCodigo: p.produtoCodigo || p.codigo || p.produto || 'Sem código',
-      quantidade: p.quantidade ?? p.qtd ?? p.qtde ?? 0,
-      cliente: p.cliente || 'Sem cliente',
-      status: p.status || 'aberto'
-    };
-  },
+  async confirmar() {
+    const codigoDigitado = document.getElementById('scanCodigo').value.trim();
 
-  render(){
-    const el = document.getElementById('sepLista');
-    if (!el) return;
+    if (!this.atual) return;
 
-    const lista = this.pedidos.map(raw => {
-      const p = this.normalizarPedido(raw);
+    if (codigoDigitado !== this.atual.codigo) {
+      document.getElementById('sepMsg').innerText = 'Produto errado ❌';
+      return;
+    }
 
-      const prod = this.produtos.find(x =>
-        String(x.codigo || '').toUpperCase() === String(p.produtoCodigo || '').toUpperCase()
-      ) || {};
-
-      return `
-        <div class="item">
-          <strong>Pedido:</strong> ${p.numero}<br>
-          <strong>Produto:</strong> ${p.produtoCodigo}<br>
-          <strong>Nome:</strong> ${prod.nome || 'Sem nome'}<br>
-          <strong>Endereço:</strong> ${prod.endereco || 'Não definido'}<br>
-          <strong>Quantidade:</strong> ${p.quantidade}
-        </div>
-      `;
+    const res = await fetch('/api/separacao/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo: this.atual.codigo, quantidade: this.atual.quantidade })
     });
 
-    el.innerHTML = lista.join('') || '<div class="item">Sem pedidos</div>';
+    const data = await res.json();
+
+    if (data.ok) {
+      document.getElementById('sepMsg').innerText = 'Separado com sucesso ✅';
+      document.getElementById('scanCodigo').value = '';
+      this.carregar();
+    } else {
+      document.getElementById('sepMsg').innerText = data.msg;
+    }
   }
 };
 
