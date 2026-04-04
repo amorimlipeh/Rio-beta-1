@@ -1,0 +1,11 @@
+
+.subcard{margin-top:16px}
+#scannerResultado .item,
+#scannerHistorico .item{
+  background:rgba(255,255,255,.03);
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:8px;
+  border-bottom:none;
+}
+video{margin-top:10px}

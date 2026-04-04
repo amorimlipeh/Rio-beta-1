@@ -1,0 +1,35 @@
+
+<div class="card">
+  <h2>Scanner Real V6</h2>
+
+  <div class="row">
+    <button onclick="RIOScannerV6.iniciarCamera()">Iniciar câmera</button>
+    <button onclick="RIOScannerV6.pararCamera()">Parar câmera</button>
+  </div>
+
+  <div class="row">
+    <input id="scannerManualCodigo" placeholder="Código manual" />
+    <button onclick="RIOScannerV6.validarManual()">Validar código</button>
+  </div>
+
+  <div id="scannerMsg" class="msg"></div>
+
+  <section class="subcard">
+    <h3>Pré-visualização</h3>
+    <video id="scannerVideo" autoplay playsinline muted style="width:100%;max-height:320px;border-radius:14px;background:#000"></video>
+    <canvas id="scannerCanvas" style="display:none;"></canvas>
+  </section>
+
+  <section class="subcard">
+    <h3>Resultado atual</h3>
+    <div id="scannerResultado" class="list"></div>
+  </section>
+
+  <section class="subcard">
+    <h3>Histórico</h3>
+    <div id="scannerHistorico" class="list compact"></div>
+  </section>
+</div>
+
+<link rel="stylesheet" href="/css/v6-scanner.css">
+<script src="/js/v6-scanner.js"></script>
