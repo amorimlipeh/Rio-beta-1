@@ -1,61 +1,71 @@
-window.Separacao = {
-  atual: null,
+let fila = [];
+let atual = null;
 
-  async carregar() {
-    const res = await fetch('/api/separacao/proxima');
-    const data = await res.json();
+async function carregarFila() {
+  try {
+    const res = await fetch('/api/separacao');
+    fila = await res.json();
 
-    if (data.vazio) {
-      document.getElementById('sepBox').innerHTML = '<div class="item">Sem pedidos</div>';
+    if (!fila.length) {
+      document.getElementById('separacao-info').innerHTML = 'Fila vazia';
       return;
     }
 
-    if (data.erro) {
-      document.getElementById('sepBox').innerHTML = '<div class="item">Erro</div>';
-      return;
-    }
+    atual = fila[0];
+    renderAtual();
 
-    this.atual = data;
-
-    document.getElementById('sepBox').innerHTML = `
-      <div class="item">
-        <strong>${data.codigo} - ${data.nome}</strong><br>
-        Endereço: ${data.endereco}<br>
-        Quantidade: ${data.quantidade}<br>
-        Estoque: ${data.estoque}<br>
-        Cliente: ${data.cliente}
-      </div>
-    `;
-  },
-
-  async confirmar() {
-    const codigoDigitado = document.getElementById('scanCodigo').value.trim();
-
-    if (!this.atual) return;
-
-    if (codigoDigitado !== this.atual.codigo) {
-      document.getElementById('sepMsg').innerText = 'Produto errado ❌';
-      return;
-    }
-
-    const res = await fetch('/api/separacao/confirmar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: this.atual.codigo, quantidade: this.atual.quantidade })
-    });
-
-    const data = await res.json();
-
-    if (data.ok) {
-      document.getElementById('sepMsg').innerText = 'Separado com sucesso ✅';
-      document.getElementById('scanCodigo').value = '';
-      this.carregar();
-    } else {
-      document.getElementById('sepMsg').innerText = data.msg;
-    }
+  } catch (e) {
+    document.getElementById('separacao-info').innerHTML = 'Erro ao carregar fila';
   }
-};
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-  Separacao.carregar();
-});
+function renderAtual() {
+  if (!atual) return;
+
+  document.getElementById('separacao-info').innerHTML = `
+    <div><b>Produto:</b> ${atual.produtoCodigo} - ${atual.nome}</div>
+    <div><b>Endereço:</b> ${atual.endereco}</div>
+    <div><b>Quantidade:</b> ${atual.quantidade}</div>
+    <div><b>Cliente:</b> ${atual.cliente}</div>
+  `;
+}
+
+async function confirmar() {
+  const input = document.getElementById('separacao-input').value;
+
+  if (!atual) return;
+
+  if (input !== atual.produtoCodigo) {
+    alert('Código não confere');
+    return;
+  }
+
+  const res = await fetch('/api/separacao/confirmar', {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({
+      codigo: atual.produtoCodigo,
+      quantidade: atual.quantidade
+    })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert(data.msg);
+    return;
+  }
+
+  fila.shift();
+  atual = fila[0] || null;
+
+  document.getElementById('separacao-input').value = '';
+
+  if (!atual) {
+    document.getElementById('separacao-info').innerHTML = 'Fila finalizada';
+  } else {
+    renderAtual();
+  }
+}
+
+window.onload = carregarFila;
