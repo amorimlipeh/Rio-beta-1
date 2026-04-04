@@ -1,0 +1,50 @@
+
+<div class="card scanner-v8-shell">
+  <h2>Scanner Câmera V8</h2>
+
+  <div class="camera-wrap">
+    <div class="camera-status" id="v8Status">Pronto para iniciar.</div>
+
+    <div class="camera-container">
+      <video id="v8Video" autoplay playsinline muted></video>
+      <canvas id="v8Canvas" style="display:none;"></canvas>
+
+      <div class="scan-frame">
+        <div class="scan-label">Área de leitura</div>
+      </div>
+    </div>
+
+    <div class="camera-actions">
+      <button class="cam-btn secondary" onclick="V8Cam.trocarCamera()">🔄</button>
+      <button class="cam-btn capture" onclick="V8Cam.capturarFallback()">●</button>
+      <button class="cam-btn secondary" onclick="V8Cam.parar()">✕</button>
+    </div>
+
+    <div class="camera-top-actions">
+      <button onclick="V8Cam.iniciar()">Iniciar câmera 4:3</button>
+      <button onclick="V8Cam.abrirLista()">Escolher câmera</button>
+    </div>
+
+    <div id="v8ListaBox" class="camera-list hidden">
+      <select id="v8Lista"></select>
+      <button onclick="V8Cam.usarSelecionada()">Usar câmera selecionada</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <input id="v8CodigoManual" placeholder="Código manual" />
+    <button onclick="V8Cam.validarManual()">Validar código</button>
+  </div>
+
+  <h3>Resultado atual</h3>
+  <div id="v8Resultado" class="list"></div>
+
+  <h3>Separação automática</h3>
+  <div id="v8Separacao" class="list"></div>
+
+  <h3>Histórico</h3>
+  <div id="v8Historico" class="list compact"></div>
+</div>
+
+<link rel="stylesheet" href="/css/v8-camera.css">
+<script src="/js/v8-camera.js"></script>
