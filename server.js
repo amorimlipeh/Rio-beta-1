@@ -212,3 +212,20 @@ app.get('*', (req,res)=>{
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', ()=> console.log('Servidor rodando na porta ' + PORT));
+
+// =========================
+// LISTAR MÓDULOS AUTOMÁTICOS
+// =========================
+const fs = require('fs');
+
+app.get('/modules-list', (req, res) => {
+  try {
+    const pasta = path.join(__dirname, 'public/modules');
+    const arquivos = fs.readdirSync(pasta)
+      .filter(f => f.endsWith('.html'));
+
+    res.json(arquivos.map(f => f.replace('.html','')));
+  } catch (e) {
+    res.json([]);
+  }
+});
