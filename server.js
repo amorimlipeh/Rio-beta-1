@@ -28,28 +28,15 @@ function readJson(name, fallback=[]){
 function writeJson(name, data){
   fs.writeFileSync(fileOf(name), JSON.stringify(data, null, 2));
 }
-
 function normalizeProduct(p){
   return {
     id: p.id || Date.now(),
     codigo: String(p.codigo || p.cod || '').trim().toUpperCase(),
     nome: String(p.nome || p.descricao || 'Produto sem nome').trim(),
     endereco: String(p.endereco || 'Não definido').trim() || 'Não definido',
-    estoque: Number(p.estoque ?? 0),
+    estoque: Number(p.estoque ?? p.quantidade ?? 0),
     imagem: p.imagem || '',
     fator: Number(p.fator ?? 1)
-  };
-}
-
-function normalizePedido(p){
-  return {
-    id: p.id || ('PED' + Date.now()),
-    numero: p.numero || p.id || ('PED-' + String(Date.now()).slice(-6)),
-    cliente: p.cliente || 'Sem cliente',
-    produtoCodigo: String(p.produtoCodigo || p.codigo || p.produto || '').trim().toUpperCase(),
-    quantidade: Number(p.quantidade ?? p.qtd ?? p.qtde ?? 0),
-    status: p.status || 'aberto',
-    criadoEm: p.criadoEm || new Date().toISOString()
   };
 }
 
@@ -57,11 +44,11 @@ function normalizePedido(p){
   ensureJson('produtos.json', [
     {"id":1,"codigo":"ARZ001","nome":"Arroz 5kg","estoque":120,"endereco":"05-001-3-1","imagem":"","fator":1},
     {"id":2,"codigo":"FEJ002","nome":"Feijão Preto 1kg","estoque":80,"endereco":"05-002-3-1","imagem":"","fator":1},
-    {"id":3,"codigo":"MAC003","nome":"Macarrão Espaguete","estoque":65,"endereco":"05-003-3-1","imagem":"","fator":1}
+    {"id":3,"codigo":"MAC003","nome":"Macarrão Espaguete","estoque":65,"endereco":"05-003-3-1","imagem":"","fator":1},
+    {"id":4,"codigo":"OLE004","nome":"Óleo de Soja 900ml","estoque":40,"endereco":"05-004-2-1","imagem":"","fator":1},
+    {"id":5,"codigo":"CAF005","nome":"Café 500g","estoque":30,"endereco":"05-005-1-1","imagem":"","fator":1}
   ]);
-  ensureJson('pedidos.json', [
-    {"id":"PED001","numero":"PED001","cliente":"Mercado Central","produtoCodigo":"ARZ001","quantidade":10,"status":"aberto"}
-  ]);
+  ensureJson('pedidos.json', []);
   ensureJson('movimentos.json', []);
   ensureJson('wms.json', [
     {"endereco":"05-001-3-1","status":"ocupado","produto":"ARZ001"},
@@ -75,21 +62,12 @@ function normalizePedido(p){
 app.get('/ping', (req,res)=> res.status(200).send('OK'));
 app.get('/health', (req,res)=> res.status(200).json({ ok:true, app:'RIOBETA1', time:new Date().toISOString() }));
 
-app.get('/api/dashboard', (req,res)=>{
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  const pedidos = readJson('pedidos.json', []).map(normalizePedido);
-  const movimentos = readJson('movimentos.json', []);
-  res.json({
-    totalProdutos: produtos.length,
-    totalEstoque: produtos.reduce((a,p)=> a + Number(p.estoque || 0), 0),
-    pedidosAbertos: pedidos.filter(p => String(p.status).toLowerCase() === 'aberto').length,
-    ultimosMovimentos: movimentos.slice(0, 6)
-  });
-});
-
 app.get('/api/produtos', (req,res)=>{
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  res.json(produtos);
+  try {
+    res.json(readJson('produtos.json', []).map(normalizeProduct));
+  } catch (e) {
+    res.json([]);
+  }
 });
 
 app.get('/api/produto/:codigo', (req,res)=>{
@@ -101,22 +79,22 @@ app.get('/api/produto/:codigo', (req,res)=>{
 });
 
 app.post('/api/produtos', (req,res)=>{
-  const { codigo, nome, endereco, imagem, fator, estoque } = req.body || {};
+  const { codigo, nome, endereco } = req.body || {};
   if (!codigo || !nome) return res.status(400).json({ ok:false, msg:'Código e nome são obrigatórios.' });
 
   const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  if (produtos.some(p => p.codigo === String(codigo).trim().toUpperCase())) {
+  const cod = String(codigo).trim().toUpperCase();
+
+  if (produtos.some(p => p.codigo === cod)) {
     return res.status(409).json({ ok:false, msg:'Código já existe.' });
   }
 
   const novo = normalizeProduct({
     id: Date.now(),
-    codigo,
+    codigo: cod,
     nome,
     endereco,
-    imagem,
-    fator,
-    estoque: Number(estoque || 0)
+    estoque: 0
   });
 
   produtos.unshift(novo);
@@ -124,110 +102,41 @@ app.post('/api/produtos', (req,res)=>{
   res.json({ ok:true, item: novo });
 });
 
-app.put('/api/produtos/:codigo', (req,res)=>{
-  const codigo = String(req.params.codigo || '').trim().toUpperCase();
-  const { nome, endereco, imagem, fator } = req.body || {};
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  const idx = produtos.findIndex(p => p.codigo === codigo);
-  if (idx === -1) return res.status(404).json({ ok:false, msg:'Produto não encontrado.' });
-
-  if (nome !== undefined) produtos[idx].nome = String(nome || '').trim() || produtos[idx].nome;
-  if (endereco !== undefined) produtos[idx].endereco = String(endereco || '').trim() || 'Não definido';
-  if (imagem !== undefined) produtos[idx].imagem = String(imagem || '').trim();
-  if (fator !== undefined && fator !== '') produtos[idx].fator = Number(fator || 1);
-
-  writeJson('produtos.json', produtos);
-  res.json({ ok:true, item: produtos[idx] });
-});
-
-app.get('/api/estoque', (req,res)=>{
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  res.json(produtos);
-});
-
-app.post('/api/estoque/movimento', (req,res)=>{
-  const { codigo, quantidade, tipo } = req.body || {};
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  const idx = produtos.findIndex(p => p.codigo === String(codigo || '').trim().toUpperCase());
-  if (idx === -1) return res.status(404).json({ ok:false, msg:'Produto não encontrado.' });
-
-  const qtd = Number(quantidade || 0);
-  if (!qtd || qtd < 0) return res.status(400).json({ ok:false, msg:'Quantidade inválida.' });
-
-  const delta = String(tipo || '').toLowerCase() === 'saida' ? -Math.abs(qtd) : Math.abs(qtd);
-  const novoEstoque = Number(produtos[idx].estoque || 0) + delta;
-  if (novoEstoque < 0) return res.status(400).json({ ok:false, msg:'Estoque insuficiente.' });
-
-  produtos[idx].estoque = novoEstoque;
-  writeJson('produtos.json', produtos);
-
-  const movimentos = readJson('movimentos.json', []);
-  movimentos.unshift({
-    id: Date.now(),
-    codigo: produtos[idx].codigo,
-    nome: produtos[idx].nome,
-    quantidade: Math.abs(qtd),
-    tipo: delta >= 0 ? 'entrada' : 'saida',
-    estoqueFinal: novoEstoque,
-    data: new Date().toISOString()
-  });
-  writeJson('movimentos.json', movimentos.slice(0, 200));
-
-  res.json({ ok:true, item: produtos[idx] });
-});
-
-app.post('/api/baixa', (req,res)=>{
-  const { codigo, quantidade } = req.body || {};
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
-  const idx = produtos.findIndex(p => p.codigo === String(codigo || '').trim().toUpperCase());
-  if (idx === -1) return res.json({ erro:true, msg:'Produto não encontrado' });
-
-  const qtd = Number(quantidade || 1);
-  if (produtos[idx].estoque < qtd) return res.json({ erro:true, msg:'Sem estoque' });
-
-  produtos[idx].estoque -= qtd;
-  writeJson('produtos.json', produtos);
-
-  const movimentos = readJson('movimentos.json', []);
-  movimentos.unshift({
-    id: Date.now(),
-    codigo: produtos[idx].codigo,
-    nome: produtos[idx].nome,
-    quantidade: qtd,
-    tipo: 'saida',
-    estoqueFinal: produtos[idx].estoque,
-    data: new Date().toISOString()
-  });
-  writeJson('movimentos.json', movimentos.slice(0, 200));
-
-  res.json({ ok:true, estoque: produtos[idx].estoque });
-});
-
 app.get('/api/pedidos', (req,res)=>{
-  res.json(readJson('pedidos.json', []).map(normalizePedido));
+  res.json(readJson('pedidos.json', []));
 });
 
 app.post('/api/pedidos', (req,res)=>{
   const { numero, cliente, produtoCodigo, quantidade } = req.body || {};
+
   if (!cliente || !produtoCodigo || !quantidade) {
     return res.status(400).json({ ok:false, msg:'Cliente, produto e quantidade são obrigatórios.' });
   }
 
-  const pedidos = readJson('pedidos.json', []).map(normalizePedido);
-  const novo = normalizePedido({ numero, cliente, produtoCodigo, quantidade, status:'aberto' });
+  const pedidos = readJson('pedidos.json', []);
+  const novo = {
+    id: 'PED' + Date.now(),
+    numero: numero ? String(numero).trim() : 'PED-' + String(Date.now()).slice(-6),
+    cliente: String(cliente).trim(),
+    produtoCodigo: String(produtoCodigo).trim().toUpperCase(),
+    quantidade: Number(quantidade),
+    status: 'aberto',
+    criadoEm: new Date().toISOString()
+  };
+
   pedidos.unshift(novo);
   writeJson('pedidos.json', pedidos);
   res.json({ ok:true, item: novo });
 });
 
 app.get('/api/separacao', (req,res)=>{
-  const pedidos = readJson('pedidos.json', []).map(normalizePedido).filter(p => String(p.status).toLowerCase() === 'aberto');
+  const pedidos = readJson('pedidos.json', []).filter(p => String(p.status || '').toLowerCase() === 'aberto');
   const produtos = readJson('produtos.json', []).map(normalizeProduct);
 
   const fila = pedidos.map(p => {
-    const prod = produtos.find(x => x.codigo === p.produtoCodigo) || {};
+    const prod = produtos.find(x => x.codigo === String(p.produtoCodigo || '').toUpperCase()) || {};
     return {
-      pedido: p.numero,
+      pedido: p.numero || p.id,
       produtoCodigo: p.produtoCodigo || 'Sem código',
       nome: prod.nome || 'Sem nome',
       endereco: prod.endereco || 'Não definido',
@@ -244,34 +153,24 @@ app.get('/api/wms', (req,res)=>{
   res.json(readJson('wms.json', []));
 });
 
-app.post('/api/wms/fixar', (req,res)=>{
-  const { endereco, produto } = req.body || {};
-  if (!endereco) return res.status(400).json({ ok:false, msg:'Endereço obrigatório.' });
+app.post('/api/baixa', (req, res) => {
+  try {
+    const { codigo, quantidade } = req.body || {};
+    const produtos = readJson('produtos.json', []).map(normalizeProduct);
 
-  const wms = readJson('wms.json', []);
-  const produtos = readJson('produtos.json', []).map(normalizeProduct);
+    const idx = produtos.findIndex(p => p.codigo === String(codigo || '').trim().toUpperCase());
+    if (idx === -1) return res.json({ erro:true, msg:'Produto não encontrado' });
 
-  let idx = wms.findIndex(x => x.endereco === endereco);
-  if (idx === -1) {
-    wms.push({ endereco, status:'livre', produto:'' });
-    idx = wms.length - 1;
+    const qtd = Number(quantidade || 1);
+    if (produtos[idx].estoque < qtd) return res.json({ erro:true, msg:'Sem estoque' });
+
+    produtos[idx].estoque -= qtd;
+    writeJson('produtos.json', produtos);
+
+    res.json({ ok:true, estoque: produtos[idx].estoque });
+  } catch (e) {
+    res.json({ erro:true, msg:'Erro interno' });
   }
-
-  wms[idx].produto = produto ? String(produto).trim().toUpperCase() : '';
-  if (wms[idx].status !== 'bloqueado') {
-    wms[idx].status = wms[idx].produto ? 'ocupado' : 'livre';
-  }
-
-  if (wms[idx].produto) {
-    const pidx = produtos.findIndex(p => p.codigo === wms[idx].produto);
-    if (pidx >= 0) {
-      produtos[pidx].endereco = endereco;
-      writeJson('produtos.json', produtos);
-    }
-  }
-
-  writeJson('wms.json', wms);
-  res.json({ ok:true, item: wms[idx] });
 });
 
 app.get('/modules-list', (req, res) => {
@@ -284,25 +183,12 @@ app.get('/modules-list', (req, res) => {
   }
 });
 
-
-
-// API_PRODUTOS_FIX
-app.get('/api/produtos', (req,res)=>{
-  try {
-    const raw = fs.readFileSync('./data/produtos.json','utf8');
-    const data = JSON.parse(raw);
-    if (!Array.isArray(data)) return res.json([]);
-    res.json(data);
-  } catch(e){
-    console.log('erro produtos', e);
-    res.json([]);
-  }
-});
-
 app.use(express.static(PUBLIC_DIR, { etag:false, maxAge:0 }));
 
 app.get('*', (req,res)=>{
-  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+  const indexFile = path.join(PUBLIC_DIR, 'index.html');
+  if (fs.existsSync(indexFile)) return res.sendFile(indexFile);
+  return res.status(200).send('RIOBETA1 ONLINE');
 });
 
 const PORT = process.env.PORT || 3000;

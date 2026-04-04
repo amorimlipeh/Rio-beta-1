@@ -3,92 +3,133 @@ window.PedidosUI = {
 
   async carregarProdutos(){
     try {
-      const res = await fetch('/api/produtos');
+      const res = await fetch('/api/produtos?v=' + Date.now(), { cache:'no-store' });
       const lista = await res.json();
-
       this.produtos = Array.isArray(lista) ? lista : [];
-
-      console.log("📦 produtos carregados:", this.produtos);
-
-    } catch(e){
-      console.log("erro ao carregar produtos", e);
+      console.log('produtos carregados', this.produtos);
+    } catch (e) {
+      console.log('erro ao carregar produtos', e);
       this.produtos = [];
     }
   },
 
   buscarProdutos(){
-    const termo = document.getElementById('pedProdutoBusca').value.toUpperCase();
+    const termo = String(document.getElementById('pedProdutoBusca')?.value || '').trim().toUpperCase();
     const box = document.getElementById('pedSugestoes');
+    if (!box) return;
 
-    if (!termo){
+    if (!termo) {
       box.innerHTML = '';
-      box.style.display = 'none';
+      box.classList.add('hidden');
       return;
     }
 
-    const encontrados = this.produtos.filter(p => {
-      return (
-        (p.codigo || '').toUpperCase().includes(termo) ||
-        (p.nome || '').toUpperCase().includes(termo)
-      );
-    });
+    const encontrados = (this.produtos || []).filter(p => {
+      const codigo = String(p.codigo || '').toUpperCase();
+      const nome = String(p.nome || '').toUpperCase();
+      return codigo.includes(termo) || nome.includes(termo);
+    }).slice(0, 10);
 
-    if (encontrados.length === 0){
+    if (!encontrados.length) {
       box.innerHTML = `<div class="suggest-item">Nenhum produto encontrado</div>`;
-      box.style.display = 'block';
+      box.classList.remove('hidden');
       return;
     }
 
     box.innerHTML = encontrados.map(p => `
-      <div class="suggest-item" onclick="PedidosUI.selecionar('${p.codigo}','${p.nome}')">
+      <div class="suggest-item" onclick="PedidosUI.selecionarProduto('${String(p.codigo).replace(/'/g, "\\'")}', '${String(p.nome).replace(/'/g, "\\'")}')">
         <strong>${p.codigo}</strong> - ${p.nome}
       </div>
     `).join('');
 
-    box.style.display = 'block';
+    box.classList.remove('hidden');
   },
 
-  selecionar(codigo, nome){
-    const campo = document.getElementById('pedProdutoCodigo');
+  selecionarProduto(codigo, nome){
+    const busca = document.getElementById('pedProdutoBusca');
+    const selecionado = document.getElementById('pedProdutoCodigo');
+    const box = document.getElementById('pedSugestoes');
 
-    campo.value = `${codigo} - ${nome}`;
-    campo.dataset.codigo = codigo;
+    if (busca) busca.value = `${codigo} - ${nome}`;
+    if (selecionado) {
+      selecionado.value = `${codigo} - ${nome}`;
+      selecionado.dataset.codigo = codigo;
+    }
 
-    document.getElementById('pedSugestoes').style.display = 'none';
+    if (box) {
+      box.innerHTML = '';
+      box.classList.add('hidden');
+    }
+  },
+
+  async carregarPedidos(){
+    try {
+      const res = await fetch('/api/pedidos?v=' + Date.now(), { cache:'no-store' });
+      const lista = await res.json();
+
+      document.getElementById('pedLista').innerHTML = (Array.isArray(lista) ? lista : []).map(p => `
+        <div class="item">
+          <strong>${p.numero || p.id || 'Sem número'}</strong><br>
+          Cliente: ${p.cliente || 'Sem cliente'}<br>
+          Produto: ${p.produtoCodigo || 'Sem produto'}<br>
+          Quantidade: ${p.quantidade || 0}<br>
+          Status: ${p.status || 'aberto'}
+        </div>
+      `).join('') || '<div class="item">Sem pedidos.</div>';
+    } catch (e) {
+      document.getElementById('pedLista').innerHTML = '<div class="item">Erro ao carregar pedidos.</div>';
+    }
   },
 
   async salvar(){
-    const cliente = document.getElementById('pedCliente').value;
-    const qtd = document.getElementById('pedQtd').value;
-    const campo = document.getElementById('pedProdutoCodigo');
+    const numero = document.getElementById('pedNumero')?.value || '';
+    const cliente = document.getElementById('pedCliente')?.value || '';
+    const quantidade = document.getElementById('pedQtd')?.value || '';
+    const selecionado = document.getElementById('pedProdutoCodigo');
+    const produtoCodigo = selecionado?.dataset?.codigo || '';
 
-    const produtoCodigo = campo.dataset.codigo;
-
-    if (!cliente || !produtoCodigo || !qtd){
-      alert("Preencha tudo");
+    if (!cliente || !produtoCodigo || !quantidade) {
+      document.getElementById('pedMsg').textContent = 'Cliente, produto e quantidade são obrigatórios.';
       return;
     }
 
-    await fetch('/api/pedidos', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        cliente,
-        produtoCodigo,
-        quantidade: qtd
-      })
-    });
+    try {
+      const res = await fetch('/api/pedidos', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ numero, cliente, produtoCodigo, quantidade })
+      });
 
-    alert("Pedido salvo");
+      const data = await res.json();
 
-    document.getElementById('pedCliente').value = '';
-    document.getElementById('pedQtd').value = '';
-    document.getElementById('pedProdutoBusca').value = '';
-    campo.value = '';
-    delete campo.dataset.codigo;
+      if (!data.ok) {
+        document.getElementById('pedMsg').textContent = data.msg || 'Falha ao salvar pedido.';
+        return;
+      }
+
+      document.getElementById('pedMsg').textContent = 'Pedido salvo com sucesso.';
+
+      ['pedNumero','pedCliente','pedProdutoBusca','pedProdutoCodigo','pedQtd'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+
+      if (selecionado?.dataset) delete selecionado.dataset.codigo;
+
+      const box = document.getElementById('pedSugestoes');
+      if (box) {
+        box.innerHTML = '';
+        box.classList.add('hidden');
+      }
+
+      await this.carregarPedidos();
+    } catch (e) {
+      document.getElementById('pedMsg').textContent = 'Erro ao salvar pedido.';
+    }
   }
 };
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  PedidosUI.carregarProdutos();
+document.addEventListener('DOMContentLoaded', async () => {
+  await PedidosUI.carregarProdutos();
+  await PedidosUI.carregarPedidos();
 });
