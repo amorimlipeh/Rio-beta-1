@@ -226,3 +226,33 @@ app.get('*', (req,res)=>{
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', ()=> console.log('Servidor rodando na porta ' + PORT));
+
+// ============================
+// BAIXA AUTOMÁTICA NO ESTOQUE
+// ============================
+app.post('/api/baixa', (req, res) => {
+    try {
+        const { codigo, quantidade } = req.body
+
+        let estoque = JSON.parse(fs.readFileSync('./data/produtos.json'))
+
+        const item = estoque.find(p => p.codigo === codigo)
+
+        if (!item) {
+            return res.json({ erro: true })
+        }
+
+        if (item.estoque < quantidade) {
+            return res.json({ erro: true, msg: 'Sem estoque' })
+        }
+
+        item.estoque -= quantidade
+
+        fs.writeFileSync('./data/produtos.json', JSON.stringify(estoque, null, 2))
+
+        res.json({ ok: true, estoque: item.estoque })
+
+    } catch {
+        res.json({ erro: true })
+    }
+})

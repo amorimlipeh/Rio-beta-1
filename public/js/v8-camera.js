@@ -174,7 +174,7 @@ window.V8Cam = {
           const raw = found[0].rawValue || '';
           if (raw && raw !== this.lastCode){
             this.lastCode = raw;
-            await this.processCode(raw);
+            await this.processarCodigo(raw);
           }
         }
       }catch(e){}
@@ -251,7 +251,7 @@ window.V8Cam = {
         if (found && found.length){
           const raw = found[0].rawValue || '';
           if (raw){
-            await this.processCode(raw);
+            await this.processarCodigo(raw);
             return;
           }
         }
@@ -268,7 +268,7 @@ window.V8Cam = {
       this.status('Informe um código manual.');
       return;
     }
-    await this.processCode(codigo);
+    await this.processarCodigo(codigo);
     input.value = '';
   },
 
@@ -300,7 +300,7 @@ window.V8Cam = {
     };
   },
 
-  async processCode(codigo){
+  async processarCodigo(codigo){
     if (!codigo) return;
     this.lock = true;
 
