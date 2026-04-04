@@ -4,32 +4,21 @@
   <div class="subcard">
     <h3>Novo pedido</h3>
 
-    <div class="row">
-      <input id="pedNumero" placeholder="Número do pedido (opcional)" />
-      <input id="pedCliente" placeholder="Cliente" />
+    <input id="pedCliente" placeholder="Cliente" />
 
-      <input
-        id="pedProdutoBusca"
-        placeholder="Buscar produto por código ou nome"
-        oninput="PedidosUI.buscarProdutos()"
-        autocomplete="off"
-      />
+    <input
+      id="pedProdutoBusca"
+      placeholder="Buscar produto (ARZ001 ou nome)"
+      oninput="PedidosUI.buscarProdutos()"
+    />
 
-      <div id="pedSugestoes" class="suggest-box hidden"></div>
+    <div id="pedSugestoes" class="suggest-box" style="display:none;"></div>
 
-      <input id="pedProdutoCodigo" placeholder="Produto selecionado" readonly />
+    <input id="pedProdutoCodigo" placeholder="Produto selecionado" readonly />
 
-      <input id="pedQtd" placeholder="Quantidade" />
+    <input id="pedQtd" placeholder="Quantidade" />
 
-      <button onclick="PedidosUI.salvar()">Salvar pedido</button>
-    </div>
-
-    <div id="pedMsg" class="text-muted" style="margin-top:10px;"></div>
-  </div>
-
-  <div class="subcard">
-    <h3>Lista de pedidos</h3>
-    <div class="list" id="pedLista"></div>
+    <button onclick="PedidosUI.salvar()">Salvar pedido</button>
   </div>
 </div>
 

@@ -284,6 +284,21 @@ app.get('/modules-list', (req, res) => {
   }
 });
 
+
+
+// API_PRODUTOS_FIX
+app.get('/api/produtos', (req,res)=>{
+  try {
+    const raw = fs.readFileSync('./data/produtos.json','utf8');
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data)) return res.json([]);
+    res.json(data);
+  } catch(e){
+    console.log('erro produtos', e);
+    res.json([]);
+  }
+});
+
 app.use(express.static(PUBLIC_DIR, { etag:false, maxAge:0 }));
 
 app.get('*', (req,res)=>{
