@@ -7,10 +7,20 @@
     <div class="row">
       <input id="pedNumero" placeholder="Número do pedido (opcional)" />
       <input id="pedCliente" placeholder="Cliente" />
-      <input id="pedProdutoBusca" placeholder="Buscar produto por código ou nome" oninput="PedidosUI.buscarProdutos()" />
+
+      <input
+        id="pedProdutoBusca"
+        placeholder="Buscar produto por código ou nome"
+        oninput="PedidosUI.buscarProdutos()"
+        autocomplete="off"
+      />
+
       <div id="pedSugestoes" class="suggest-box hidden"></div>
+
       <input id="pedProdutoCodigo" placeholder="Produto selecionado" readonly />
+
       <input id="pedQtd" placeholder="Quantidade" />
+
       <button onclick="PedidosUI.salvar()">Salvar pedido</button>
     </div>
 
@@ -22,4 +32,5 @@
     <div class="list" id="pedLista"></div>
   </div>
 </div>
+
 <script src="/js/pedidos-ui.js"></script>
