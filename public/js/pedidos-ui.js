@@ -1,21 +1,22 @@
 window.PedidosUI = {
   produtos: [],
 
-  async carregarProdutos(){
+  async carregarProdutos() {
     try {
-      const res = await fetch('/api/produtos?v=' + Date.now(), { cache:'no-store' });
+      const res = await fetch('/api/produtos?v=' + Date.now(), { cache: 'no-store' });
       const lista = await res.json();
       this.produtos = Array.isArray(lista) ? lista : [];
-      console.log('produtos carregados', this.produtos);
+      console.log('produtos carregados:', this.produtos);
     } catch (e) {
       console.log('erro ao carregar produtos', e);
       this.produtos = [];
     }
   },
 
-  buscarProdutos(){
+  buscarProdutos() {
     const termo = String(document.getElementById('pedProdutoBusca')?.value || '').trim().toUpperCase();
     const box = document.getElementById('pedSugestoes');
+
     if (!box) return;
 
     if (!termo) {
@@ -45,7 +46,7 @@ window.PedidosUI = {
     box.classList.remove('hidden');
   },
 
-  selecionarProduto(codigo, nome){
+  selecionarProduto(codigo, nome) {
     const busca = document.getElementById('pedProdutoBusca');
     const selecionado = document.getElementById('pedProdutoCodigo');
     const box = document.getElementById('pedSugestoes');
@@ -62,9 +63,9 @@ window.PedidosUI = {
     }
   },
 
-  async carregarPedidos(){
+  async carregarPedidos() {
     try {
-      const res = await fetch('/api/pedidos?v=' + Date.now(), { cache:'no-store' });
+      const res = await fetch('/api/pedidos?v=' + Date.now(), { cache: 'no-store' });
       const lista = await res.json();
 
       document.getElementById('pedLista').innerHTML = (Array.isArray(lista) ? lista : []).map(p => `
@@ -81,7 +82,7 @@ window.PedidosUI = {
     }
   },
 
-  async salvar(){
+  async salvar() {
     const numero = document.getElementById('pedNumero')?.value || '';
     const cliente = document.getElementById('pedCliente')?.value || '';
     const quantidade = document.getElementById('pedQtd')?.value || '';
@@ -95,8 +96,8 @@ window.PedidosUI = {
 
     try {
       const res = await fetch('/api/pedidos', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ numero, cliente, produtoCodigo, quantidade })
       });
 
@@ -109,12 +110,14 @@ window.PedidosUI = {
 
       document.getElementById('pedMsg').textContent = 'Pedido salvo com sucesso.';
 
-      ['pedNumero','pedCliente','pedProdutoBusca','pedProdutoCodigo','pedQtd'].forEach(id => {
+      ['pedNumero', 'pedCliente', 'pedProdutoBusca', 'pedProdutoCodigo', 'pedQtd'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
 
-      if (selecionado?.dataset) delete selecionado.dataset.codigo;
+      if (selecionado?.dataset) {
+        delete selecionado.dataset.codigo;
+      }
 
       const box = document.getElementById('pedSugestoes');
       if (box) {
@@ -124,6 +127,7 @@ window.PedidosUI = {
 
       await this.carregarPedidos();
     } catch (e) {
+      console.log('erro ao salvar pedido', e);
       document.getElementById('pedMsg').textContent = 'Erro ao salvar pedido.';
     }
   }
