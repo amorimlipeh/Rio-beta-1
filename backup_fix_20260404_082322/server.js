@@ -74,7 +74,8 @@ app.get('/api/dashboard', (req,res)=>{
 });
 
 app.get('/api/produtos', (req,res)=>{
-  res.json(readJson('produtos.json', []).map(normalizeProduct));
+  const produtos = readJson('produtos.json', []).map(normalizeProduct);
+  res.json(produtos);
 });
 
 app.post('/api/produtos', (req,res)=>{
@@ -113,7 +114,8 @@ app.put('/api/produtos/:codigo', (req,res)=>{
 });
 
 app.get('/api/estoque', (req,res)=>{
-  res.json(readJson('produtos.json', []).map(normalizeProduct));
+  const produtos = readJson('produtos.json', []).map(normalizeProduct);
+  res.json(produtos);
 });
 
 app.post('/api/estoque/movimento', (req,res)=>{

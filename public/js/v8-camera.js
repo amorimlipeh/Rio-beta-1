@@ -90,7 +90,6 @@ window.V8Cam = {
       if (txt.includes('front')) s -= 120;
       if (txt.includes('frontal')) s -= 120;
       s += Math.max(0, 20 - i);
-
       if (s > bestScore){
         bestScore = s;
         bestIdx = i;
@@ -243,7 +242,6 @@ window.V8Cam = {
     const h = video.videoHeight || 768;
     canvas.width = w;
     canvas.height = h;
-
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, w, h);
 
