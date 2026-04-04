@@ -1,0 +1,57 @@
+<div class="card">
+  <h2>Scanner do Operador</h2>
+  <div class="text-muted">Scanner usado pela operação. Aqui a leitura ajuda a validar produto e empurrar a separação do operador.</div>
+
+  <div class="row">
+    <button onclick="RIOVOZ.desbloquear()">Ativar voz</button>
+  </div>
+
+  <div class="scanner-box">
+    <video id="scanVideo" autoplay playsinline muted></video>
+    <canvas id="scanCanvas" style="display:none;"></canvas>
+    <div class="scan-area"></div>
+  </div>
+
+  <div class="scan-actions">
+    <button class="icon-btn" onclick="ScannerUI.trocarCamera()">🔄</button>
+    <button class="capture-btn" onclick="ScannerUI.capturar()">●</button>
+    <button class="icon-btn" onclick="ScannerUI.parar()">✕</button>
+  </div>
+
+  <div class="row">
+    <button onclick="ScannerUI.iniciar()">Iniciar câmera 4:3</button>
+    <button onclick="ScannerUI.mostrarCameras()">Escolher câmera</button>
+  </div>
+
+  <div class="row" id="scanCamBox" style="display:none;">
+    <select id="scanLista"></select>
+    <button onclick="ScannerUI.usarSelecionada()">Usar câmera selecionada</button>
+  </div>
+
+  <div class="row">
+    <input id="scanManual" placeholder="Código manual" />
+    <button onclick="ScannerUI.validarManual()">Validar código</button>
+  </div>
+
+  <div class="subcard">
+    <h3>Status</h3>
+    <div id="scanStatus" class="text-muted">Pronto para iniciar.</div>
+  </div>
+
+  <div class="subcard">
+    <h3>Resultado atual</h3>
+    <div class="list" id="scanResultado"></div>
+  </div>
+
+  <div class="subcard">
+    <h3>Separação automática</h3>
+    <div class="list" id="scanSeparacao"></div>
+  </div>
+
+  <div class="subcard">
+    <h3>Histórico</h3>
+    <div class="list" id="scanHistorico"></div>
+  </div>
+</div>
+<script src="/js/voz.js"></script>
+<script src="/js/scanner-ui.js"></script>

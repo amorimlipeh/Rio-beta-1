@@ -1,12 +1,13 @@
 <div class="card">
-  <h2>Separação</h2>
+  <h2>Separação do Operador</h2>
+  <div class="text-muted">Fila operacional para o operador. O scanner apoia esta tela; aqui fica a lista real de pedidos abertos.</div>
 
   <div class="row">
-    <button onclick="Separacao.carregar()">Atualizar</button>
+    <button onclick="RIOVOZ.desbloquear()">Ativar voz</button>
+    <button onclick="SeparacaoUI.carregar()">Atualizar</button>
   </div>
 
-  <div id="sepLista" class="list"></div>
+  <div class="list" id="sepLista"></div>
 </div>
-
-<link rel="stylesheet" href="/css/separacao.css">
-<script src="/js/separacao.js"></script>
+<script src="/js/voz.js"></script>
+<script src="/js/separacao-ui.js"></script>
