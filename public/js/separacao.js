@@ -10,32 +10,26 @@ window.Separacao = {
     try {
       if (msgBox) msgBox.textContent = '';
 
-      const res = await fetch('/api/separacao?v=' + Date.now(), {
-        cache: 'no-store'
-      });
-
+      const res = await fetch('/api/separacao?v=' + Date.now(), { cache: 'no-store' });
       const data = await res.json();
 
       this.fila = Array.isArray(data) ? data : [];
       this.atual = this.fila.length ? this.fila[0] : null;
 
       if (!this.atual) {
-        if (atualBox) {
-          atualBox.innerHTML = '<div class="item">Sem pedidos para separar.</div>';
-        }
-        if (listaBox) {
-          listaBox.innerHTML = '<div class="item">Fila vazia.</div>';
-        }
+        if (atualBox) atualBox.innerHTML = '<div class="item">Sem pedidos para separar.</div>';
+        if (listaBox) listaBox.innerHTML = '<div class="item">Fila vazia.</div>';
         return;
       }
 
       if (atualBox) {
         atualBox.innerHTML = `
           <div class="item ok">
-            <strong>${this.atual.produtoCodigo}</strong> - ${this.atual.nome}<br>
-            Cliente: ${this.atual.cliente}<br>
-            Endereço: <strong>${this.atual.endereco}</strong><br>
-            Quantidade: ${this.atual.quantidade}
+            <strong>${this.atual.nome}</strong><br>
+            Código: ${this.atual.produtoCodigo}<br>
+            Endereço: ${this.atual.endereco}<br>
+            Quantidade: ${this.atual.quantidade}<br>
+            Cliente: ${this.atual.cliente}
           </div>
         `;
       }
@@ -43,29 +37,18 @@ window.Separacao = {
       if (listaBox) {
         listaBox.innerHTML = this.fila.map((item, idx) => `
           <div class="item ${idx === 0 ? 'ok' : ''}">
-            <strong>${item.pedido}</strong><br>
-            Produto: ${item.produtoCodigo}<br>
-            Nome: ${item.nome}<br>
-            Endereço: ${item.endereco}<br>
-            Quantidade: ${item.quantidade}<br>
-            Cliente: ${item.cliente}
+            ${item.produtoCodigo} - ${item.quantidade}
           </div>
         `).join('');
       }
-
     } catch (e) {
-      console.log('erro ao carregar separacao', e);
-      if (atualBox) {
-        atualBox.innerHTML = '<div class="item err">Erro ao carregar separação.</div>';
-      }
-      if (listaBox) {
-        listaBox.innerHTML = '<div class="item err">Erro ao carregar fila.</div>';
-      }
+      if (atualBox) atualBox.innerHTML = '<div class="item err">Erro ao carregar separação.</div>';
+      if (listaBox) listaBox.innerHTML = '<div class="item err">Erro ao carregar fila.</div>';
     }
   },
 
   async confirmar() {
-    const codigo = String(document.getElementById('sepCodigo')?.value || '').trim().toUpperCase();
+    const input = document.getElementById('sepCodigo');
     const msgBox = document.getElementById('sepMsg');
 
     if (!this.atual) {
@@ -73,14 +56,11 @@ window.Separacao = {
       return;
     }
 
-    if (!codigo) {
-      if (msgBox) msgBox.textContent = 'Informe o código.';
-      return;
-    }
-
+    const digitado = String(input?.value || '').trim().toUpperCase();
     const esperado = String(this.atual.produtoCodigo || '').trim().toUpperCase();
 
-    if (codigo !== esperado) {
+    // se digitou algo, valida; se não digitou, confirma o item atual direto
+    if (digitado && digitado !== esperado) {
       if (msgBox) msgBox.textContent = `Código incorreto. Esperado: ${esperado}`;
       return;
     }
@@ -103,10 +83,9 @@ window.Separacao = {
       }
 
       if (msgBox) msgBox.textContent = 'Coleta confirmada com sucesso.';
-      document.getElementById('sepCodigo').value = '';
+      if (input) input.value = '';
       await this.carregar();
     } catch (e) {
-      console.log('erro ao confirmar coleta', e);
       if (msgBox) msgBox.textContent = 'Erro ao confirmar coleta.';
     }
   }
@@ -114,9 +93,10 @@ window.Separacao = {
 
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('sepBtnConfirmar');
+  const input = document.getElementById('sepCodigo');
+
   if (btn) btn.onclick = () => Separacao.confirmar();
 
-  const input = document.getElementById('sepCodigo');
   if (input) {
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
