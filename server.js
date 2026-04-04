@@ -216,7 +216,7 @@ app.listen(PORT, '0.0.0.0', ()=> console.log('Servidor rodando na porta ' + PORT
 // =========================
 // LISTAR MÓDULOS AUTOMÁTICOS
 // =========================
-const fs = require('fs');
+
 
 app.get('/modules-list', (req, res) => {
   try {
