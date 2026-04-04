@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-
-pkill -f monitor-downloads.sh
-
-echo "🛑 AUTO DESLIGADO"
+pkill -f "monitor-downloads.sh" 2>/dev/null
+pkill -f "status-monitor.sh" 2>/dev/null
+pkill -f "status-dashboard.sh" 2>/dev/null
+echo "🛑 OFFAUTO DESLIGOU TUDO"

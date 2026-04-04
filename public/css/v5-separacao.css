@@ -1,0 +1,10 @@
+
+.subcard{margin-top:16px}
+.hidden{display:none}
+#sepFila .item, #sepHist .item, #sepAtual .item{
+  background:rgba(255,255,255,.03);
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:8px;
+  border-bottom:none;
+}

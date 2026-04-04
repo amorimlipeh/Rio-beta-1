@@ -1,0 +1,33 @@
+
+<div class="card">
+  <h2>Separação Profissional V5</h2>
+
+  <div class="row">
+    <button onclick="RIOSEP.carregar()">Atualizar fila</button>
+    <button onclick="RIOSEP.repetir()">Repetir passo</button>
+  </div>
+
+  <div id="sepMsg" class="msg"></div>
+
+  <section class="subcard">
+    <h3>Fila de separação</h3>
+    <div id="sepFila" class="list compact"></div>
+  </section>
+
+  <section class="subcard">
+    <h3>Passo atual</h3>
+    <div id="sepAtual" class="list"></div>
+    <div class="row">
+      <button onclick="RIOSEP.confirmarRetirada()">Confirmar retirada</button>
+      <button onclick="RIOSEP.concluirPedido()">Concluir pedido</button>
+    </div>
+  </section>
+
+  <section class="subcard">
+    <h3>Histórico local</h3>
+    <div id="sepHist" class="list compact"></div>
+  </section>
+</div>
+
+<link rel="stylesheet" href="/css/v5-separacao.css">
+<script src="/js/v5-separacao.js"></script>
