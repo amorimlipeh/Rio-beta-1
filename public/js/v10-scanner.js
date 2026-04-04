@@ -15,11 +15,10 @@ async function processarCodigo(codigo) {
 
         if (data.erro) {
             document.getElementById('v8Resultado').innerHTML = "❌ Produto não encontrado"
-            bloquearTempo()
+            liberar()
             return
         }
 
-        // SOM + VIBRAÇÃO
         beep()
         vibrar()
 
@@ -30,7 +29,6 @@ async function processarCodigo(codigo) {
             📊 Estoque: ${data.estoque}
         `
 
-        // SEPARAÇÃO
         document.getElementById('v8Separacao').innerHTML = `
             Produto: ${data.codigo}<br>
             Nome: ${data.nome}<br>
@@ -38,7 +36,12 @@ async function processarCodigo(codigo) {
             Quantidade: 1
         `
 
-        // BAIXA AUTOMÁTICA
+        // 🔊 VOZ
+        if (typeof falarSeparacao === 'function') {
+            falarSeparacao(data)
+        }
+
+        // 📉 BAIXA ESTOQUE
         await fetch('/api/baixa', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -49,10 +52,10 @@ async function processarCodigo(codigo) {
         console.log(e)
     }
 
-    bloquearTempo()
+    liberar()
 }
 
-function bloquearTempo() {
+function liberar() {
     setTimeout(() => bloqueio = false, 1500)
 }
 
