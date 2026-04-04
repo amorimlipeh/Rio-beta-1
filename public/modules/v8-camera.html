@@ -18,7 +18,11 @@
       <button class="cam-btn secondary" onclick="V8Cam.parar()">✕</button>
     </div>
 
-    <div class="camera-top-actions">
+    <div class="row">
+  <button id="btnDesbloquearVoz" onclick="if(window.RIOVOZ){RIOVOZ.desbloquear(); RIOVOZ.falar(\'Voz ativada com sucesso\');}">Ativar voz</button>
+</div>
+
+<div class="camera-top-actions">
       <button onclick="V8Cam.iniciar()">Iniciar câmera 4:3</button>
       <button onclick="V8Cam.abrirLista()">Escolher câmera</button>
     </div>
