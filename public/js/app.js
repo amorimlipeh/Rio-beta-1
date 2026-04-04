@@ -7,11 +7,12 @@ window.abrirModulo = async function(modulo){
     container.innerHTML = await res.text();
     document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('ativo'));
     document.querySelector('[data-modulo="' + modulo + '"]')?.classList.add('ativo');
+
     const scripts = [...container.querySelectorAll('script')];
     for (const oldScript of scripts){
       const s = document.createElement('script');
       if (oldScript.src){
-        s.src = oldScript.src;
+        s.src = oldScript.src + (oldScript.src.includes('?') ? '&' : '?') + 'v=' + Date.now();
         document.body.appendChild(s);
         await new Promise(r => { s.onload=r; s.onerror=r; });
       } else {

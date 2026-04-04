@@ -1,10 +1,16 @@
 
 <div class="card">
   <h2>WMS</h2>
+  <div class="row">
+    <input id="wmsEndereco" placeholder="Endereço ex: 05-004-3-1" />
+    <input id="wmsProduto" placeholder="Código do produto" />
+  </div>
+  <button onclick="fixarWMS()">Fixar produto no endereço</button>
+  <div id="wmsMsg" class="msg"></div>
   <div id="wms-grid" class="wms-grid"></div>
 </div>
 <script>
-(async function(){
+async function carregarWMS(){
   const r = await fetch('/api/wms', { cache:'no-store' });
   const list = await r.json();
   document.getElementById('wms-grid').innerHTML = list.map(x => `
@@ -14,5 +20,23 @@
       <div>${x.produto || '-'}</div>
     </div>
   `).join('');
-})();
+}
+async function fixarWMS(){
+  const endereco = document.getElementById('wmsEndereco').value;
+  const produto = document.getElementById('wmsProduto').value;
+  const msg = document.getElementById('wmsMsg');
+  const r = await fetch('/api/wms/fixar', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ endereco, produto })
+  });
+  const d = await r.json();
+  msg.textContent = d.msg || (d.ok ? 'Endereço atualizado com sucesso.' : 'Falha ao atualizar WMS.');
+  if (d.ok){
+    document.getElementById('wmsEndereco').value = '';
+    document.getElementById('wmsProduto').value = '';
+    carregarWMS();
+  }
+}
+carregarWMS();
 </script>

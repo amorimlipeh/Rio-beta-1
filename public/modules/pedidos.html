@@ -1,14 +1,46 @@
 
 <div class="card">
   <h2>Pedidos</h2>
+  <div class="row">
+    <input id="pedNumero" placeholder="Número do pedido (opcional)" />
+    <input id="pedCliente" placeholder="Cliente" />
+  </div>
+  <div class="row">
+    <input id="pedProduto" placeholder="Código do produto" />
+    <input id="pedQtd" type="number" placeholder="Quantidade" />
+  </div>
+  <button onclick="salvarPedido()">Salvar pedido</button>
+  <div id="pedMsg" class="msg"></div>
   <div id="pedidos-lista" class="list"></div>
 </div>
 <script>
-(async function(){
+async function carregarPedidos(){
   const r = await fetch('/api/pedidos', { cache:'no-store' });
   const list = await r.json();
   document.getElementById('pedidos-lista').innerHTML = list.map(p => `
-    <div class="item"><strong>${p.numero}</strong><br>Cliente: ${p.cliente}<br>Status: ${p.status}</div>
+    <div class="item"><strong>${p.numero}</strong><br>Cliente: ${p.cliente}<br>Produto: ${p.produtoCodigo}<br>Quantidade: ${p.quantidade}<br>Status: ${p.status}</div>
   `).join('');
-})();
+}
+async function salvarPedido(){
+  const numero = document.getElementById('pedNumero').value;
+  const cliente = document.getElementById('pedCliente').value;
+  const produtoCodigo = document.getElementById('pedProduto').value;
+  const quantidade = document.getElementById('pedQtd').value;
+  const msg = document.getElementById('pedMsg');
+  const r = await fetch('/api/pedidos', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ numero, cliente, produtoCodigo, quantidade })
+  });
+  const d = await r.json();
+  msg.textContent = d.msg || (d.ok ? 'Pedido salvo com sucesso.' : 'Falha ao salvar pedido.');
+  if (d.ok){
+    document.getElementById('pedNumero').value = '';
+    document.getElementById('pedCliente').value = '';
+    document.getElementById('pedProduto').value = '';
+    document.getElementById('pedQtd').value = '';
+    carregarPedidos();
+  }
+}
+carregarPedidos();
 </script>

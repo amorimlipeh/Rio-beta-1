@@ -1,14 +1,45 @@
 
 <div class="card">
   <h2>Estoque</h2>
+  <div class="row">
+    <input id="estCodigo" placeholder="Código do produto" />
+    <input id="estQtd" type="number" placeholder="Quantidade" />
+  </div>
+  <div class="row">
+    <select id="estTipo">
+      <option value="entrada">Entrada</option>
+      <option value="saida">Saída</option>
+    </select>
+    <button onclick="movimentarEstoque()">Salvar movimento</button>
+  </div>
+  <div id="estMsg" class="msg"></div>
   <div id="estoque-lista" class="list"></div>
 </div>
 <script>
-(async function(){
-  const r = await fetch('/api/produtos', { cache:'no-store' });
+async function carregarEstoque(){
+  const r = await fetch('/api/estoque', { cache:'no-store' });
   const list = await r.json();
   document.getElementById('estoque-lista').innerHTML = list.map(p => `
     <div class="item"><strong>${p.codigo}</strong><br>Estoque atual: ${p.estoque}</div>
   `).join('');
-})();
+}
+async function movimentarEstoque(){
+  const codigo = document.getElementById('estCodigo').value;
+  const quantidade = document.getElementById('estQtd').value;
+  const tipo = document.getElementById('estTipo').value;
+  const msg = document.getElementById('estMsg');
+  const r = await fetch('/api/estoque/movimento', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ codigo, quantidade, tipo })
+  });
+  const d = await r.json();
+  msg.textContent = d.msg || (d.ok ? 'Movimento salvo com sucesso.' : 'Falha ao salvar movimento.');
+  if (d.ok){
+    document.getElementById('estCodigo').value = '';
+    document.getElementById('estQtd').value = '';
+    carregarEstoque();
+  }
+}
+carregarEstoque();
 </script>

@@ -1,14 +1,43 @@
 
 <div class="card">
   <h2>Produtos</h2>
+  <div class="row">
+    <input id="prodCodigo" placeholder="Código" />
+    <input id="prodNome" placeholder="Nome do produto" />
+  </div>
+  <div class="row">
+    <input id="prodEndereco" placeholder="Endereço WMS" />
+    <button onclick="salvarProduto()">Salvar produto</button>
+  </div>
+  <div id="prodMsg" class="msg"></div>
   <div id="produtos-lista" class="list"></div>
 </div>
 <script>
-(async function(){
+async function carregarProdutos(){
   const r = await fetch('/api/produtos', { cache:'no-store' });
   const list = await r.json();
   document.getElementById('produtos-lista').innerHTML = list.map(p => `
     <div class="item"><strong>${p.codigo}</strong> - ${p.nome}<br>Estoque: ${p.estoque}<br>Endereço: ${p.endereco}</div>
   `).join('');
-})();
+}
+async function salvarProduto(){
+  const codigo = document.getElementById('prodCodigo').value;
+  const nome = document.getElementById('prodNome').value;
+  const endereco = document.getElementById('prodEndereco').value;
+  const msg = document.getElementById('prodMsg');
+  const r = await fetch('/api/produtos', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ codigo, nome, endereco })
+  });
+  const d = await r.json();
+  msg.textContent = d.msg || (d.ok ? 'Produto salvo com sucesso.' : 'Falha ao salvar produto.');
+  if (d.ok){
+    document.getElementById('prodCodigo').value = '';
+    document.getElementById('prodNome').value = '';
+    document.getElementById('prodEndereco').value = '';
+    carregarProdutos();
+  }
+}
+carregarProdutos();
 </script>
