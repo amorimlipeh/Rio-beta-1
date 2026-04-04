@@ -10,7 +10,10 @@ window.Separacao = {
     try {
       if (msgBox) msgBox.textContent = '';
 
-      const res = await fetch('/api/separacao?v=' + Date.now(), { cache: 'no-store' });
+      const res = await fetch('/api/separacao?v=' + Date.now(), {
+        cache: 'no-store'
+      });
+
       const data = await res.json();
 
       this.fila = Array.isArray(data) ? data : [];
@@ -110,5 +113,18 @@ window.Separacao = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('sepBtnConfirmar');
+  if (btn) btn.onclick = () => Separacao.confirmar();
+
+  const input = document.getElementById('sepCodigo');
+  if (input) {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        Separacao.confirmar();
+      }
+    });
+  }
+
   Separacao.carregar();
 });
