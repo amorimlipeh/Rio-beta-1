@@ -1,0 +1,35 @@
+
+<div class="card">
+  <h2>Picking V3</h2>
+
+  <div class="row">
+    <button onclick="RIOPicking.carregar()">Atualizar pedidos</button>
+    <button onclick="RIOPicking.abrirModo('simples')">Modo simples</button>
+    <button onclick="RIOPicking.abrirModo('profissional')">Modo profissional</button>
+  </div>
+
+  <div id="pickingMsg" class="msg"></div>
+
+  <section id="pickingSimples" class="subcard">
+    <h3>Separação simples</h3>
+    <div id="pickingListaSimples" class="list"></div>
+  </section>
+
+  <section id="pickingProfissional" class="subcard hidden">
+    <h3>Separação profissional</h3>
+    <div id="pickingFila" class="list compact"></div>
+    <div id="pickingPasso" class="list"></div>
+    <div class="row">
+      <button onclick="RIOPicking.confirmarRetirada()">Confirmar retirada</button>
+      <button onclick="RIOPicking.proximoPasso()">Próximo passo</button>
+    </div>
+  </section>
+
+  <section class="subcard">
+    <h3>Histórico local de separações</h3>
+    <div id="pickingHistorico" class="list compact"></div>
+  </section>
+</div>
+
+<link rel="stylesheet" href="/css/picking-v3.css">
+<script src="/js/picking-v3.js"></script>
