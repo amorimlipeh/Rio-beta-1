@@ -26,3 +26,11 @@ window.abrirModulo = async function(modulo){
   }
 };
 window.addEventListener('DOMContentLoaded', ()=> abrirModulo('dashboard'));
+
+function abrirModulo(nome){
+  fetch(`/modules/${nome}.html`)
+    .then(r => r.text())
+    .then(html => {
+      document.querySelector('.content').innerHTML = html;
+    });
+}
