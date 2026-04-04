@@ -1,71 +1,114 @@
-let fila = [];
-let atual = null;
+window.Separacao = {
+  fila: [],
+  atual: null,
 
-async function carregarFila() {
-  try {
-    const res = await fetch('/api/separacao');
-    fila = await res.json();
+  async carregar() {
+    const atualBox = document.getElementById('sepAtual');
+    const listaBox = document.getElementById('sepLista');
+    const msgBox = document.getElementById('sepMsg');
 
-    if (!fila.length) {
-      document.getElementById('separacao-info').innerHTML = 'Fila vazia';
+    try {
+      if (msgBox) msgBox.textContent = '';
+
+      const res = await fetch('/api/separacao?v=' + Date.now(), { cache: 'no-store' });
+      const data = await res.json();
+
+      this.fila = Array.isArray(data) ? data : [];
+      this.atual = this.fila.length ? this.fila[0] : null;
+
+      if (!this.atual) {
+        if (atualBox) {
+          atualBox.innerHTML = '<div class="item">Sem pedidos para separar.</div>';
+        }
+        if (listaBox) {
+          listaBox.innerHTML = '<div class="item">Fila vazia.</div>';
+        }
+        return;
+      }
+
+      if (atualBox) {
+        atualBox.innerHTML = `
+          <div class="item ok">
+            <strong>${this.atual.produtoCodigo}</strong> - ${this.atual.nome}<br>
+            Cliente: ${this.atual.cliente}<br>
+            Endereço: <strong>${this.atual.endereco}</strong><br>
+            Quantidade: ${this.atual.quantidade}
+          </div>
+        `;
+      }
+
+      if (listaBox) {
+        listaBox.innerHTML = this.fila.map((item, idx) => `
+          <div class="item ${idx === 0 ? 'ok' : ''}">
+            <strong>${item.pedido}</strong><br>
+            Produto: ${item.produtoCodigo}<br>
+            Nome: ${item.nome}<br>
+            Endereço: ${item.endereco}<br>
+            Quantidade: ${item.quantidade}<br>
+            Cliente: ${item.cliente}
+          </div>
+        `).join('');
+      }
+
+    } catch (e) {
+      console.log('erro ao carregar separacao', e);
+      if (atualBox) {
+        atualBox.innerHTML = '<div class="item err">Erro ao carregar separação.</div>';
+      }
+      if (listaBox) {
+        listaBox.innerHTML = '<div class="item err">Erro ao carregar fila.</div>';
+      }
+    }
+  },
+
+  async confirmar() {
+    const codigo = String(document.getElementById('sepCodigo')?.value || '').trim().toUpperCase();
+    const msgBox = document.getElementById('sepMsg');
+
+    if (!this.atual) {
+      if (msgBox) msgBox.textContent = 'Sem item atual.';
       return;
     }
 
-    atual = fila[0];
-    renderAtual();
+    if (!codigo) {
+      if (msgBox) msgBox.textContent = 'Informe o código.';
+      return;
+    }
 
-  } catch (e) {
-    document.getElementById('separacao-info').innerHTML = 'Erro ao carregar fila';
+    const esperado = String(this.atual.produtoCodigo || '').trim().toUpperCase();
+
+    if (codigo !== esperado) {
+      if (msgBox) msgBox.textContent = `Código incorreto. Esperado: ${esperado}`;
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/separacao/confirmar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          codigo: esperado,
+          quantidade: Number(this.atual.quantidade || 0)
+        })
+      });
+
+      const data = await res.json();
+
+      if (!data.ok) {
+        if (msgBox) msgBox.textContent = data.msg || 'Erro ao confirmar coleta.';
+        return;
+      }
+
+      if (msgBox) msgBox.textContent = 'Coleta confirmada com sucesso.';
+      document.getElementById('sepCodigo').value = '';
+      await this.carregar();
+    } catch (e) {
+      console.log('erro ao confirmar coleta', e);
+      if (msgBox) msgBox.textContent = 'Erro ao confirmar coleta.';
+    }
   }
-}
+};
 
-function renderAtual() {
-  if (!atual) return;
-
-  document.getElementById('separacao-info').innerHTML = `
-    <div><b>Produto:</b> ${atual.produtoCodigo} - ${atual.nome}</div>
-    <div><b>Endereço:</b> ${atual.endereco}</div>
-    <div><b>Quantidade:</b> ${atual.quantidade}</div>
-    <div><b>Cliente:</b> ${atual.cliente}</div>
-  `;
-}
-
-async function confirmar() {
-  const input = document.getElementById('separacao-input').value;
-
-  if (!atual) return;
-
-  if (input !== atual.produtoCodigo) {
-    alert('Código não confere');
-    return;
-  }
-
-  const res = await fetch('/api/separacao/confirmar', {
-    method: 'POST',
-    headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({
-      codigo: atual.produtoCodigo,
-      quantidade: atual.quantidade
-    })
-  });
-
-  const data = await res.json();
-
-  if (!data.ok) {
-    alert(data.msg);
-    return;
-  }
-
-  fila.shift();
-  atual = fila[0] || null;
-
-  document.getElementById('separacao-input').value = '';
-
-  if (!atual) {
-    document.getElementById('separacao-info').innerHTML = 'Fila finalizada';
-  } else {
-    renderAtual();
-  }
-}
-
-window.onload = carregarFila;
+document.addEventListener('DOMContentLoaded', () => {
+  Separacao.carregar();
+});

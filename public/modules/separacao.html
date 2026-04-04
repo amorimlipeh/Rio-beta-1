@@ -1,11 +1,26 @@
 <div class="card">
   <h2>Separação</h2>
 
-  <div id="separacao-info">Carregando...</div>
+  <div class="subcard">
+    <h3>Próximo item</h3>
+    <div id="sepAtual" class="list">
+      <div class="item">Carregando...</div>
+    </div>
 
-  <input id="separacao-input" placeholder="Escaneie ou digite o código" />
+    <div class="row">
+      <input id="sepCodigo" placeholder="Escaneie ou digite o código" />
+      <button onclick="Separacao.confirmar()">Confirmar coleta</button>
+    </div>
 
-  <button onclick="confirmar()">Confirmar coleta</button>
+    <div id="sepMsg" style="margin-top:10px;"></div>
+  </div>
+
+  <div class="subcard">
+    <h3>Fila atual</h3>
+    <div id="sepLista" class="list">
+      <div class="item">Carregando...</div>
+    </div>
+  </div>
 </div>
 
 <script src="/js/separacao.js"></script>
